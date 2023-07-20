@@ -1,0 +1,30 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.batch_qty == 0",
+ "creation": "2023-07-20 18:20:04.116369",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Batch",
+ "enabled": 1,
+ "event": "Custom",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Add your message here",
+ "modified": "2023-07-20 18:20:04.116369",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "{{doc.name}} Batch Qty Is Zero",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": "All"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{doc.name}} Batch Qty Is Zero",
+ "value_changed": "batch_qty"
+}

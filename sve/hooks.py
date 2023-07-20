@@ -64,7 +64,8 @@ app_license = "MIT"
 # ------------
 
 # before_install = "sve.install.before_install"
-# after_install = "sve.install.after_install"
+after_install = "sve.after_install.after_install",
+after_migrate = "sve.after_install.after_install"
 
 # Uninstallation
 # ------------
@@ -109,7 +110,12 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
-
+doc_events = {
+    "Customer":{
+        "after_insert" : "sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
+        "validate" : "sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details"
+    }
+}
 # Scheduled Tasks
 # ---------------
 
