@@ -13,6 +13,7 @@
   "farm_location",
   "ton_of_feed",
   "column_break_is41m",
+  "lead_name",
   "chick_capacity__laying",
   "chick_capacity_growing",
   "compatible_breed"
@@ -61,11 +62,17 @@
    "fieldname": "ton_of_feed",
    "fieldtype": "Int",
    "label": "Ton of feed consumed per day"
+  },
+  {
+   "fieldname": "lead_name",
+   "fieldtype": "Link",
+   "label": "Lead",
+   "options": "Lead"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-20 11:41:27.249601",
+ "modified": "2023-07-25 16:07:30.880366",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

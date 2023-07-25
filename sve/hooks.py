@@ -112,8 +112,21 @@ after_migrate = "sve.after_install.after_install"
 # }
 doc_events = {
     "Customer":{
-        "after_insert" : "sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
-        "validate" : "sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details"
+        "after_insert" : ["sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
+                          "sve.sri_venkatesa_enterprises.custom.py.customer.set_exisiting_farm"
+                          ],
+        "validate" : ["sve.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
+                      "sve.sri_venkatesa_enterprises.custom.py.customer.set_exisiting_farm"
+                      ]
+    },
+    "Item":{
+        "validate":"sve.sri_venkatesa_enterprises.custom.py.item.update_price"
+    },
+    "Sales Invoice" : {
+        "validate" :"sve.sri_venkatesa_enterprises.custom.py.sales_return.validate_return"
+    },
+    "Purchase Invoice" : {
+        "validate" : "sve.sri_venkatesa_enterprises.custom.py.purchase_return.validate_return"
     }
 }
 # Scheduled Tasks

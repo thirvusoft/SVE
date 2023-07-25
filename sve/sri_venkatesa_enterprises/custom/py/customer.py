@@ -13,7 +13,7 @@ def maintance_contact_details(doc,actions):
                         'first_name':f"{doc.doctor_name} Doctor"
                 })
                 contact.save(ignore_permissions=True)
-        if not frappe.db.exists("Contact", {'maintenance_type': "Doctor"}):
+        if not frappe.db.exists("Contact", {'maintenance_type': "Doctor", "name" : ['in',com_add]}):
             document_dc = frappe.new_doc("Contact")
             document_dc.first_name = f"{doc.doctor_name} Doctor"
             document_dc.maintenance_type = "Doctor"
@@ -41,7 +41,7 @@ def maintance_contact_details(doc,actions):
                         'first_name':f"{doc.dealer_name} Dealer"
                 })
                 contact.save(ignore_permissions=True)
-        if not frappe.db.exists("Contact", {'maintenance_type': "Dealer"}):
+        if not frappe.db.exists("Contact", {'maintenance_type': "Dealer", "name" : ['in',com_add]}):
             document_dc = frappe.new_doc("Contact")
             document_dc.first_name = f"{doc.dealer_name} Dealer"
             document_dc.maintenance_type = "Dealer"
@@ -68,7 +68,7 @@ def maintance_contact_details(doc,actions):
                         'first_name':f"{doc.supervisor_name} Supervisor"
                 })
                 contact.save(ignore_permissions=True)
-        if not frappe.db.exists("Contact", {'maintenance_type': "Supervisor"}):
+        if not frappe.db.exists("Contact", {'maintenance_type': "Supervisor", "name" : ['in',com_add]}):
             document_dc = frappe.new_doc("Contact")
             document_dc.first_name = f"{doc.supervisor_name} Supervisor"
             document_dc.maintenance_type = "Supervisor"
@@ -83,3 +83,16 @@ def maintance_contact_details(doc,actions):
                                     link_name = doc.name
                                     ))
             document_dc.save(ignore_permissions=True)
+
+def set_exisiting_farm(doc,actions):
+    if doc.name  and (actions == "after_insert" or not doc.is_new()):
+        if doc.lead_name:
+            farm_details = frappe.get_value("Farm Details", {"lead_name": doc.lead_name},"name")
+            if farm_details:
+                farm = frappe.get_doc("Farm Details", farm_details)
+                if farm.lead_name == doc.lead_name:
+                    farm.update(
+                        {
+                            'customer':doc.name
+                    })
+                    farm.save(ignore_permissions=True)
