@@ -3,7 +3,7 @@ from frappe.utils import get_datetime, getdate, date_diff
 
 def validate_return(doc,actions):
     if doc.is_return == 1:
-        so = frappe.get_doc("Purchase Invoice",doc.return_against)
+        so = frappe.get_doc("Delivery Note",doc.return_against)
         start_date = so.posting_date
         end_date = doc.posting_date
         date1 = get_datetime(start_date)

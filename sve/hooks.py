@@ -125,8 +125,8 @@ doc_events = {
     "Sales Invoice" : {
         "validate" :"sve.sri_venkatesa_enterprises.custom.py.sales_return.validate_return"
     },
-    "Purchase Invoice" : {
-        "validate" : "sve.sri_venkatesa_enterprises.custom.py.purchase_return.validate_return"
+    "Delivery Note" : {
+        "validate" : "sve.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"
     }
 }
 # Scheduled Tasks
