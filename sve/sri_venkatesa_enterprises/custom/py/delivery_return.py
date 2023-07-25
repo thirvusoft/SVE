@@ -9,7 +9,9 @@ def validate_return(doc,actions):
         date1 = get_datetime(start_date)
         date2 = get_datetime(end_date)
         days_difference = date_diff(date2, date1)
+        print(days_difference)
         for i in doc.items:
             so_items = frappe.get_doc("Item",i.item_code)
-            if int(so_items.delivery_date) <= days_difference:
-                frappe.throw(f"{i.item_code}={i.idx}")
+            if so_items.delivery_date:
+                if days_difference > int(so_items.delivery_date):
+                    frappe.throw(f"{i.item_code} Return date is greater than posting date")
