@@ -127,6 +127,9 @@ doc_events = {
     },
     "Delivery Note" : {
         "validate" : "sve.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"
+    },
+    "Lead":{
+        "validate":"sve.sri_venkatesa_enterprises.custom.py.lead.sales_person_assign"
     }
 }
 # Scheduled Tasks
