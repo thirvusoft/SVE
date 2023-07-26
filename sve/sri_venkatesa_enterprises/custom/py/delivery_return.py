@@ -9,7 +9,6 @@ def validate_return(doc,actions):
         date1 = get_datetime(start_date)
         date2 = get_datetime(end_date)
         days_difference = date_diff(date2, date1)
-        print(days_difference)
         for i in doc.items:
             so_items = frappe.get_doc("Item",i.item_code)
             if so_items.delivery_date:
