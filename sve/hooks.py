@@ -123,7 +123,8 @@ doc_events = {
         "validate":"sve.sri_venkatesa_enterprises.custom.py.item.update_price"
     },
     "Sales Invoice" : {
-        "validate" :"sve.sri_venkatesa_enterprises.custom.py.sales_return.validate_return"
+        "validate" :["sve.sri_venkatesa_enterprises.custom.py.sales_return.validate_return",
+                     ]
     },
     "Delivery Note" : {
         "validate" : "sve.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"

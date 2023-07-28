@@ -50,10 +50,8 @@ def update_price(doc, actions):
             item_price.save()
     if doc.buying_rate:
         ip = frappe.get_all('Item Price', {'price_list':"Standard Buying", 'item_code':doc.name, 'valid_upto':["is","not set"]}, 'name')
-        print(ip,"-----")
         if(ip):
             exists_doc = frappe.get_doc('Item Price', ip[0].name)
-            print(exists_doc,"---------------")
             if exists_doc.price_list_rate != doc.buying_rate:
                 exists_doc.valid_upto = now()
                 exists_doc.save()
