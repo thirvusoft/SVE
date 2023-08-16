@@ -57,7 +57,7 @@
   },
   {
    "fieldname": "ton_of_feed",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Ton of feed consumed per day"
   },
@@ -71,7 +71,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-16 15:18:56.921942",
+ "modified": "2023-08-16 17:27:57.987602",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

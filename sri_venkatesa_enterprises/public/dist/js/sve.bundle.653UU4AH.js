@@ -17,7 +17,7 @@
     }
   });
 
-  // frappe-html:/home/shankar/frappe-bench/v14-bench/apps/sri_venkatesa_enterprises/sri_venkatesa_enterprises/public/js/sve/farm_list.html
+  // frappe-html:/home/frappe/frappe-bench/apps/sri_venkatesa_enterprises/sri_venkatesa_enterprises/public/js/sve/farm_list.html
   frappe.templates["farm_list"] = `<div class="clearfix"></div>
 {% for(var i=0, l=farm_list.length; i<l; i++) { %}
 <div class="address-box">
@@ -35,4 +35,4 @@
 {% } %}
 <p><button class="btn btn-xs btn-default btn-address">{{ __("New Farm") }}</button></p>`;
 })();
-//# sourceMappingURL=sve.bundle.Z6V42N2Q.js.map
+//# sourceMappingURL=sve.bundle.653UU4AH.js.map
