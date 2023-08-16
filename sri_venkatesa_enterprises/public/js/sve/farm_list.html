@@ -1,0 +1,16 @@
+<div class="clearfix"></div>
+{% for(var i=0, l=farm_list.length; i<l; i++) { %}
+<div class="address-box">
+	<p class="h6">
+		{%= i+1 %}.
+		<a href="/app/farm-details/{%= encodeURIComponent(farm_list[i].name) %}" class="btn btn-default btn-xs pull-right"
+			style="margin-top:-3px; margin-right: -5px;">
+			{%= __("Edit") %}</a>
+	</p>
+	<p>{%= farm_list[i].display %}</p>
+</div>
+{% } %}
+{% if(!farm_list.length) { %}
+<p class="text-muted small">{%= __("No Farm added yet.") %}</p>
+{% } %}
+<p><button class="btn btn-xs btn-default btn-address">{{ __("New Farm") }}</button></p>

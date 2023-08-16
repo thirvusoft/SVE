@@ -12,7 +12,9 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/sri_venkatesa_enterprises/css/sri_venkatesa_enterprises.css"
-# app_include_js = "/assets/sri_venkatesa_enterprises/js/sri_venkatesa_enterprises.js"
+app_include_js = [
+    "sve.bundle.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/sri_venkatesa_enterprises/css/sri_venkatesa_enterprises.css"
@@ -29,7 +31,10 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Customer" : "sri_venkatesa_enterprises/custom/js/customer.js",
+    "Lead" : "sri_venkatesa_enterprises/custom/js/lead.js"
+    }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -63,8 +68,8 @@ app_license = "MIT"
 # Installation
 # ------------
 
-# before_install = "sri_venkatesa_enterprises.install.before_install"
-# after_install = "sri_venkatesa_enterprises.install.after_install"
+after_install = "sri_venkatesa_enterprises.after_install.after_install"
+after_migrate = "sri_venkatesa_enterprises.after_install.after_install"
 
 # Uninstallation
 # ------------
@@ -118,13 +123,30 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+    "Customer":{
+        "after_insert" : ["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
+                          "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.set_exisiting_farm"
+                          ],
+        "validate" : ["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
+                      "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.set_exisiting_farm"
+                      ]
+    },
+    "Item":{
+        "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.update_price",
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.update_price"
+    },
+    "Sales Invoice" : {
+        "validate" :["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_return.validate_return",
+                     ]
+    },
+    "Delivery Note" : {
+        "validate" : "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"
+    },
+    "Lead":{
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.lead.sales_person_assign"
+    }
+}
 
 # Scheduled Tasks
 # ---------------

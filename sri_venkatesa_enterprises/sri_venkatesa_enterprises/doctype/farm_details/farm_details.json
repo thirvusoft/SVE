@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:farm_name",
+ "creation": "2023-07-20 11:25:41.804994",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "farm_name",
+  "farm_location",
+  "ton_of_feed",
+  "column_break_is41m",
+  "lead",
+  "chick_capacity__laying",
+  "compatible_breed"
+ ],
+ "fields": [
+  {
+   "fieldname": "farm_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Farm Name",
+   "unique": 1
+  },
+  {
+   "description": "Copy the location and paste it here",
+   "fieldname": "farm_location",
+   "fieldtype": "Data",
+   "label": "Farm Location",
+   "options": "URL"
+  },
+  {
+   "fieldname": "chick_capacity__laying",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Chick Capacity - Laying"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "compatible_breed",
+   "fieldtype": "Table MultiSelect",
+   "label": "Compatible Breed",
+   "options": "Compatible Breed Table"
+  },
+  {
+   "fieldname": "column_break_is41m",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ton_of_feed",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Ton of feed consumed per day"
+  },
+  {
+   "fieldname": "lead",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Lead",
+   "options": "Lead"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-08-16 15:18:56.921942",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Farm Details",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
