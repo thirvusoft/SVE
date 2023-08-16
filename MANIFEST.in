@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include sri_venkatesa_enterprises *.css
+recursive-include sri_venkatesa_enterprises *.csv
+recursive-include sri_venkatesa_enterprises *.html
+recursive-include sri_venkatesa_enterprises *.ico
+recursive-include sri_venkatesa_enterprises *.js
+recursive-include sri_venkatesa_enterprises *.json
+recursive-include sri_venkatesa_enterprises *.md
+recursive-include sri_venkatesa_enterprises *.png
+recursive-include sri_venkatesa_enterprises *.py
+recursive-include sri_venkatesa_enterprises *.svg
+recursive-include sri_venkatesa_enterprises *.txt
+recursive-exclude sri_venkatesa_enterprises *.pyc
