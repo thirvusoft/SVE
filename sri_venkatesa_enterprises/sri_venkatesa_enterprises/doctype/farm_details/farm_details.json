@@ -15,7 +15,11 @@
   "column_break_is41m",
   "lead",
   "chick_capacity__laying",
-  "compatible_breed"
+  "compatible_breed",
+  "address__contacts_tab",
+  "address_html",
+  "column_break_pbms2",
+  "contact_html"
  ],
  "fields": [
   {
@@ -67,11 +71,30 @@
    "in_standard_filter": 1,
    "label": "Lead",
    "options": "Lead"
+  },
+  {
+   "fieldname": "address__contacts_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address & Contacts"
+  },
+  {
+   "fieldname": "address_html",
+   "fieldtype": "HTML",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_pbms2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_html",
+   "fieldtype": "HTML",
+   "label": "Contact"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-16 17:27:57.987602",
+ "modified": "2023-08-16 17:46:22.720539",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Farm Details', {
-	// refresh: function(frm) {
-
-	// }
+	refresh: function(frm) {
+		frappe.contacts.render_address_and_contact(frm);
+	}
 });
