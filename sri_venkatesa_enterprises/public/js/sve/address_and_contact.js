@@ -16,6 +16,10 @@ $.extend(frappe.contacts, {
                     var address = frappe.model.get_new_doc("Address");
 					address["link_doctype"]=frm.doc.doctype;
                     address["link_name"]=frm.doc.name;
+					address["country"] = "India"
+					if(frm.doc.doctype == "Farm Details"){
+						address["address_type"] = "Farm"
+					}
 					frappe.ui.form.make_quick_entry("Address", undefined, undefined, address) 
 				});
 		}
@@ -31,6 +35,9 @@ $.extend(frappe.contacts, {
 					dn.link_doctype = frm.doc.doctype
 					dn.link_name = frm.doc.name
 					contact.links = [dn]
+					if(frm.doc.doctype == "Farm Details"){
+						contact.first_name = frm.doc.customer_name || frm.doc.lead_name || ""
+					}
 					frappe.ui.form.make_quick_entry("Contact", undefined, undefined, contact) 
 				});
 		}

@@ -9,11 +9,13 @@
  "engine": "InnoDB",
  "field_order": [
   "customer",
+  "customer_name",
   "farm_name",
   "farm_location",
   "ton_of_feed",
   "column_break_is41m",
   "lead",
+  "lead_name",
   "chick_capacity__laying",
   "compatible_breed",
   "address__contacts_tab",
@@ -90,11 +92,25 @@
    "fieldname": "contact_html",
    "fieldtype": "HTML",
    "label": "Contact"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer Name"
+  },
+  {
+   "fetch_from": "lead.lead_name",
+   "fieldname": "lead_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Lead Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-16 17:46:22.720539",
+ "modified": "2023-08-18 10:24:52.694715",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",
