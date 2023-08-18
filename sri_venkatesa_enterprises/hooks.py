@@ -33,7 +33,8 @@ app_include_js = [
 # include js in doctype views
 doctype_js = {
     "Customer" : "sri_venkatesa_enterprises/custom/js/customer.js",
-    "Lead" : "sri_venkatesa_enterprises/custom/js/lead.js"
+    "Lead" : "sri_venkatesa_enterprises/custom/js/lead.js",
+    "Quotation": "sri_venkatesa_enterprises/custom/js/quotation.js"
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
