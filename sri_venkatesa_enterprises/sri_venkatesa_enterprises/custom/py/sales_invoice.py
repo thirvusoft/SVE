@@ -3,9 +3,14 @@ from frappe.utils.data import flt
 
 def sales_contribution(self, event=None):
     self.sales_team = []
+    total_contribution = 0
     for spt in self.sales_person_contribution:
+        if not spt.get("contribution"):
+                frappe.throw(title="Missing Mandatory", msg=f"Row #{spt.idx}: Sales Person contribution % missing")
+        total_contribution += spt.contribution or 0
+        if total_contribution > 100:
+            frappe.throw("Total Sales Person contribution % should be below or equal 100%")
         for item in self.items:
-
             self.append('sales_team', 
                 dict(
                         sales_person = spt.sales_person,

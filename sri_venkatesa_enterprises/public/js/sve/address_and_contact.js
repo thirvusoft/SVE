@@ -38,6 +38,9 @@ $.extend(frappe.contacts, {
 					if(frm.doc.doctype == "Farm Details"){
 						contact.first_name = frm.doc.customer_name || frm.doc.lead_name || ""
 					}
+					else if(frm.doc.doctype == "Doctor"){
+						contact.first_name = frm.doc.doctor_name || ""
+					}
 					frappe.ui.form.make_quick_entry("Contact", undefined, undefined, contact) 
 				});
 		}
