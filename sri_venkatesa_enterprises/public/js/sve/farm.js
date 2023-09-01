@@ -13,6 +13,9 @@ $.extend(sve.farm, {
 				.on("click", function () {
 					var farm = frappe.model.get_new_doc("Farm Details");
 					farm[frappe.scrub(frm.doc.doctype) ]=frm.doc.name;
+					if(frm.doc.doctype == "Opportunity"){
+						farm[frappe.scrub(frm.doc.opportunity_from) ]=frm.doc.party_name;
+					}
 					frappe.ui.form.make_quick_entry("Farm Details", undefined, undefined, farm) 
 				});
 		}

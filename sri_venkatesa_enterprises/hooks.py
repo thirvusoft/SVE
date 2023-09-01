@@ -34,7 +34,10 @@ app_include_js = [
 doctype_js = {
     "Customer" : "sri_venkatesa_enterprises/custom/js/customer.js",
     "Lead" : "sri_venkatesa_enterprises/custom/js/lead.js",
-    "Quotation": "sri_venkatesa_enterprises/custom/js/quotation.js"
+    "Opportunity":"sri_venkatesa_enterprises/custom/js/opportunity.js",
+    "Quotation": "sri_venkatesa_enterprises/custom/js/quotation.js",
+    "Sales Invoice":"sri_venkatesa_enterprises/custom/js/sales_invoice.js",
+    "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js"
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -135,7 +138,7 @@ doc_events = {
     },
     "Item":{
         "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.update_price",
-        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.update_price"
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.validate"
     },
     "Sales Invoice" : {
         "validate" :["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_return.validate_return",
@@ -145,7 +148,7 @@ doc_events = {
         "validate" : "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"
     },
     "Lead":{
-        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.lead.sales_person_assign"
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.lead.validate"
     }
 }
 

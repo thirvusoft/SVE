@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-08-21 18:48:39.874564",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "chick_breed",
+  "min_qty",
+  "column_break_pmn8g",
+  "max_qty",
+  "qty_per",
+  "uom"
+ ],
+ "fields": [
+  {
+   "fieldname": "chick_breed",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Chick Breed",
+   "options": "\nLayers\nBroilers\nBreeders",
+   "search_index": 1
+  },
+  {
+   "fieldname": "min_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Min Qty"
+  },
+  {
+   "fieldname": "max_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Max Qty"
+  },
+  {
+   "fieldname": "qty_per",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Qty Per",
+   "options": "\nPer Ton of Feed\nPer Chick"
+  },
+  {
+   "fieldname": "column_break_pmn8g",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-08-23 11:17:12.528756",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Dosage",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

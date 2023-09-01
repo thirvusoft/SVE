@@ -9,7 +9,7 @@
    "_comments": null,
    "_liked_by": null,
    "_user_tags": null,
-   "creation": "2023-07-20 10:02:56.489092",
+   "creation": "2023-08-24 11:10:22.063921",
    "default_value": null,
    "doc_type": "Item Barcode",
    "docstatus": 0,
@@ -17,15 +17,15 @@
    "field_name": "barcode",
    "idx": 0,
    "is_system_generated": 1,
-   "modified": "2023-07-20 10:02:56.489092",
-   "modified_by": "Administrator",
+   "modified": "2023-08-24 11:10:22.063921",
+   "modified_by": "gayathri@thirvusoft.in",
    "module": null,
    "name": "Item Barcode-barcode-hidden",
-   "owner": "Administrator",
+   "owner": "gayathri@thirvusoft.in",
    "property": "hidden",
    "property_type": "Check",
    "row_name": null,
-   "value": "0"
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

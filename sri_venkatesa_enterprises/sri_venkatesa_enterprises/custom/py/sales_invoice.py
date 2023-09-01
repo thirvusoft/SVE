@@ -1,5 +1,6 @@
 import frappe
 from frappe.utils.data import flt
+from frappe.contacts.doctype.address.address import address_query
 
 def sales_contribution(self, event=None):
     self.sales_team = []
@@ -21,26 +22,69 @@ def sales_contribution(self, event=None):
                         incentives = flt(item.amount * spt.contribution / 100.0) * flt(item.sales_person_commission_rate) / 100.0,
                         ))
 
-# def calculate_contribution(self):
-# 	if not self.meta.get_field("sales_team"):
-# 		return
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def filter_farm_address(doctype, txt, searchfield, start, page_len, filters):
+    from frappe.desk.reportview import get_match_cond
 
-# 	total = 0.0
-# 	sales_team = self.get("sales_team")
-# 	for sales_person in sales_team:
-# 		self.round_floats_in(sales_person)
-# 		sales_person.allocated_amount = flt(
-# 			self.amount_eligible_for_commission * sales_person.allocated_percentage / 100.0,
-# 			self.precision("allocated_amount", sales_person),
-# 		)
+    doctype = "Address"
+    link_doctype = filters.pop("link_doctype")
+    link_name = []
+    if filters.get("party_name"):
+        link_name = frappe.get_list("Farm Details", {"customer":filters["party_name"]}, pluck="name")
+        del filters["party_name"]
+    if not link_name:
+        return []
 
-# 		if sales_person.commission_rate:
-# 			sales_person.incentives = flt(
-# 				sales_person.allocated_amount * flt(sales_person.commission_rate) / 100.0,
-# 				self.precision("incentives", sales_person),
-# 			)
+    condition = ""
+    meta = frappe.get_meta(doctype)
+    for fieldname, value in filters.items():
+        if meta.get_field(fieldname) or fieldname in frappe.db.DEFAULT_COLUMNS:
+            condition += f" and {fieldname}={frappe.db.escape(value)}"
 
-# 		total += sales_person.allocated_percentage
+    searchfields = meta.get_search_fields()
 
-# 	if sales_team and total != 100.0:
-# 		throw(_("Total allocated percentage for sales team should be 100"))
+    if searchfield and (meta.get_field(searchfield) or searchfield in frappe.db.DEFAULT_COLUMNS):
+        searchfields.append(searchfield)
+
+    search_condition = ""
+    for field in searchfields:
+        if search_condition == "":
+            search_condition += f"`tabAddress`.`{field}` like %(txt)s"
+        else:
+            search_condition += f" or `tabAddress`.`{field}` like %(txt)s"
+
+    return frappe.db.sql(
+        """select
+            `tabAddress`.name, `tabAddress`.city, `tabAddress`.country
+        from
+            `tabAddress`
+        join `tabDynamic Link`
+            on (`tabDynamic Link`.parent = `tabAddress`.name and `tabDynamic Link`.parenttype = 'Address')
+        where
+            `tabDynamic Link`.link_doctype = %(link_doctype)s and
+            `tabDynamic Link`.link_name in {link_name} and
+            ifnull(`tabAddress`.disabled, 0) = 0 and
+            ({search_condition})
+            {mcond} {condition}
+        order by
+            case
+                when locate(%(_txt)s, `tabAddress`.name) != 0
+                then locate(%(_txt)s, `tabAddress`.name)
+                else 99999
+            end,
+            `tabAddress`.idx desc, `tabAddress`.name
+        limit %(page_len)s offset %(start)s""".format(
+            mcond=get_match_cond(doctype),
+            search_condition=search_condition,
+            condition=condition or "",
+            link_name= f"""("{'","'.join(link_name)}")""",
+        ),
+        {
+            "txt": "%" + txt + "%",
+            "_txt": txt.replace("%", ""),
+            "start": start,
+            "page_len": page_len,
+            "link_doctype": link_doctype,
+        },
+    )

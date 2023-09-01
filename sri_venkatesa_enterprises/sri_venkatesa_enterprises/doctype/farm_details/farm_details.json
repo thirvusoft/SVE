@@ -10,9 +10,11 @@
  "field_order": [
   "customer",
   "customer_name",
+  "doctor",
   "farm_name",
   "farm_location",
   "ton_of_feed",
+  "route",
   "column_break_is41m",
   "lead",
   "lead_name",
@@ -21,7 +23,8 @@
   "address__contacts_tab",
   "address_html",
   "column_break_pbms2",
-  "contact_html"
+  "contact_html",
+  "check"
  ],
  "fields": [
   {
@@ -35,8 +38,7 @@
    "description": "Copy the location and paste it here",
    "fieldname": "farm_location",
    "fieldtype": "Data",
-   "label": "Farm Location",
-   "options": "URL"
+   "label": "Farm Location"
   },
   {
    "fieldname": "chick_capacity__laying",
@@ -106,11 +108,30 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Lead Name"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "label": "Doctor",
+   "options": "Doctor"
+  },
+  {
+   "fetch_from": "customer.territory",
+   "fieldname": "route",
+   "fieldtype": "Link",
+   "label": "Route",
+   "options": "Territory",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "check",
+   "fieldtype": "Check"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-18 10:24:52.694715",
+ "modified": "2023-09-01 16:26:23.618516",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

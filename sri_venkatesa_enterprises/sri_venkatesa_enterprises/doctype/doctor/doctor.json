@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "doctor_name",
+  "mobile_no",
   "address_and_contacts_section",
   "address_html",
   "column_break_eudfa",
@@ -42,11 +43,18 @@
    "fieldname": "contact_html",
    "fieldtype": "HTML",
    "label": "Contacts"
+  },
+  {
+   "depends_on": "eval:doc.__islocal",
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-18 15:35:09.844071",
+ "modified": "2023-08-28 10:10:07.064660",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Doctor",

@@ -17,7 +17,7 @@ from frappe.utils import (
 from frappe.utils import strip, now,get_datetime, nowtime
 from frappe import _
 
-def update_price(doc, actions):
+def update_price(doc, actions=None):
     if doc.is_new():
         return
     if doc.selling_rate:
@@ -86,3 +86,11 @@ def update_price(doc, actions):
             item_price_buy.save()
         
 
+
+def validate(doc, event=None):
+    update_price(doc)
+    remove_tax_for_nil_rated(doc)
+
+def remove_tax_for_nil_rated(doc):
+    if doc.is_non_gst or doc.is_nil_exempt and doc.taxes:
+        doc.taxes = []

@@ -1,0 +1,71 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"sI0X8Sw7Kl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Setting</span>\",\"col\":12}},{\"id\":\"lVkIeh10Cw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Crm Settings\",\"col\":3}},{\"id\":\"gtmbShejkh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Settings\",\"col\":3}},{\"id\":\"Yf6ZLO-0of\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Buying Settings\",\"col\":3}},{\"id\":\"d-Q4VPOMqP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Selling Settings\",\"col\":3}},{\"id\":\"BUAlfSpOpq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Accounts Settings\",\"col\":3}},{\"id\":\"YmacndQjlK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hr Settings\",\"col\":3}}]",
+ "creation": "2023-08-21 11:35:10.281848",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "setting",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Setting",
+ "links": [],
+ "modified": "2023-08-31 19:10:19.994208",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Setting",
+ "number_cards": [],
+ "owner": "gayathri@thirvusoft.in",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 32.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock Settings",
+   "link_to": "Stock Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hr Settings",
+   "link_to": "HR Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Buying Settings",
+   "link_to": "Buying Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Selling Settings",
+   "link_to": "Selling Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Crm Settings",
+   "link_to": "CRM Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Accounts Settings",
+   "link_to": "Accounts Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "Setting"
+}
