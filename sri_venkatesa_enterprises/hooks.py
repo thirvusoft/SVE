@@ -64,10 +64,13 @@ doctype_js = {
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-#	"methods": "sri_venkatesa_enterprises.utils.jinja_methods",
+jinja = {
+	"methods": [
+        "frappe.contacts.doctype.address.address.get_default_address",
+        "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.print_format_salesinvoice.get_invoice_item_and_tax_details"
+    ]
 #	"filters": "sri_venkatesa_enterprises.utils.jinja_filters"
-# }
+ }
 
 # Installation
 # ------------
@@ -141,14 +144,20 @@ doc_events = {
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.validate"
     },
     "Sales Invoice" : {
-        "validate" :["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_return.validate_return",
-                     ]
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_return.validate_return",
+        "autoname":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_invoice.autoname",
     },
     "Delivery Note" : {
         "validate" : "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.delivery_return.validate_return"
     },
     "Lead":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.lead.validate"
+    },
+    "Quotation":{
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.quotation.validate_lead_approval"
+    },
+    "Opportuntity":{
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.validate_lead_approval"
     }
 }
 

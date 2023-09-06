@@ -1,6 +1,8 @@
 import frappe
 from frappe.utils.data import flt
 from frappe.contacts.doctype.address.address import address_query
+from frappe.model.naming import make_autoname
+
 
 def sales_contribution(self, event=None):
     self.sales_team = []
@@ -88,3 +90,9 @@ def filter_farm_address(doctype, txt, searchfield, start, page_len, filters):
             "link_doctype": link_doctype,
         },
     )
+
+
+def autoname(doc, event=None):
+    if doc.get("branch_series"):
+        doc.naming_series = doc.branch_series
+        doc.name = make_autoname(doc.branch_series, doc=doc)

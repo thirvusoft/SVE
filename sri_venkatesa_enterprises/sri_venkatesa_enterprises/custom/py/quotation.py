@@ -1,6 +1,6 @@
 import frappe
 import json
-
+from frappe import _
 @frappe.whitelist()
 def check_linked_customer_with_lead(lead_name=None):
     if not lead_name:
@@ -63,3 +63,11 @@ def make_customer_from_lead(source_name, ignore_permissions=False, customer_fiel
 				return customer_name
 		else:
 			return frappe.get_doc("Customer", quotation.get("party_name"))
+
+
+
+def validate_lead_approval(doc,event):
+	if doc.quotation_to == "Lead":
+		lead_doc=frappe.get_doc("Lead",doc.party_name)
+		if lead_doc.workflow_state != "Approved":
+			frappe.throw(_("Lead is not Approved"))

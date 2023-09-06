@@ -50,3 +50,24 @@ def validate_mobile_no(doc):
     if(doc.whatsapp_no):
         if len(doc.whatsapp_no) != 10 or doc.whatsapp_no[0] not in ["9", "8", "7", "6"]:
             throw("Whatsapp No")
+
+
+@frappe.whitelist()
+def log_location(msg):
+    frappe.log_error(msg)
+
+
+
+
+
+def create_status():
+    doc=frappe.new_doc('Property Setter')
+    doc.update({
+        "doctype_or_field": "DocField",
+        "doc_type":"Lead",
+        "field_name":"type",
+        "property":"options",
+        "value":"\nCustomer\nDoctor\nDealer"
+    })
+    doc.save()
+    frappe.db.commit()
