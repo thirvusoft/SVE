@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-09-11 15:48:03.905991",
+ "default_view": "List",
+ "description": " ",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "attendance_date",
+  "user",
+  "employee",
+  "sales_person",
+  "checkin",
+  "checkin_time",
+  "checkout",
+  "checkout_time",
+  "start_km",
+  "end_km",
+  "total_distance"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "depends_on": "eval:!doc.checkin_time",
+   "fieldname": "checkin",
+   "fieldtype": "Button",
+   "label": "Checkin"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "checkin_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Checkin Time",
+   "read_only_depends_on": "eval:true"
+  },
+  {
+   "depends_on": "eval:!doc.checkout_time && doc.checkin_time",
+   "fieldname": "checkout",
+   "fieldtype": "Button",
+   "label": "Checkout"
+  },
+  {
+   "fieldname": "checkout_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Checkout Time",
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "start_km",
+   "fieldtype": "Float",
+   "label": "Start KM"
+  },
+  {
+   "fieldname": "end_km",
+   "fieldtype": "Float",
+   "label": "End KM"
+  },
+  {
+   "fieldname": "total_distance",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Distance"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Sales Person",
+   "options": "Sales Person"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attendance_date",
+   "fieldtype": "Date",
+   "label": "Attendance Date"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-09-14 21:59:08.079763",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Employee In Out",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

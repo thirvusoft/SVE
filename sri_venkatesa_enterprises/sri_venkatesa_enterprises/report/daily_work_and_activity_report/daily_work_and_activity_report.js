@@ -21,5 +21,10 @@ frappe.query_reports["Daily Work and Activity Report"] = {
 			label:"Date",
 			fieldtype:"Date",
 		},
+		{
+			fieldname:"group_by_sales_person",
+			label:"Group by Sales Person",
+			fieldtype:"Check",
+		},
 	]
 };

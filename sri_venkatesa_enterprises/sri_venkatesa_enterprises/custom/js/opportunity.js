@@ -44,7 +44,7 @@ frappe.ui.form.on("Opportunity", {
                 }
             })
         }
-
+        frm.events.apply_farm_filter(frm)
         frm.set_query("from_dealer", ()=>{
             return {
                 filters:{
@@ -85,12 +85,42 @@ frappe.ui.form.on("Opportunity", {
 			};
 		};
 	},
-})
-
-frappe.ui.form.on("Follow Ups",{
-    follow_up_add: function(frm, cdt, cdn){
-        frappe.model.set_value(cdt, cdn, "followed_by", frappe.session.user)
-        frappe.model.set_value(cdt, cdn, "next_followup_by", frappe.session.user)
-        frappe.model.set_value(cdt, cdn, "date", frappe.datetime.nowdate() )
+    apply_farm_filter:function(frm){
+        if(frm.doc.opportunity_from == "Customer"){
+            frm.set_query("farm", ()=>{
+                return {
+                    filters:{
+                        "customer":frm.doc.party_name
+                    }
+                }
+            })
+        }
+        else if(frm.doc.opportunity_from == "Lead"){
+            frm.set_query("farm", ()=>{
+                return {
+                    filters:{
+                        "lead":frm.doc.party_name
+                    }
+                }
+            })
+        }
+    },
+    party_name:function(frm){
+        frm.events.apply_farm_filter(frm)
+        frappe.call({
+            method:"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.get_customer_details",
+            args:{
+                doc:frm.doc
+            },
+            callback(r){
+                if(r.message){
+                    frm.set_value("state", r.message.state)
+                    frm.set_value("city", r.message.city)
+                }
+            }
+        })
+    },
+    opportunity_from:function(frm){
+        frm.events.apply_farm_filter(frm)
     }
 })

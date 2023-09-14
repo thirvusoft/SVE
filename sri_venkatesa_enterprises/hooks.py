@@ -156,31 +156,19 @@ doc_events = {
     "Quotation":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.quotation.validate_lead_approval"
     },
-    "Opportuntity":{
-        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.validate_lead_approval"
+    "Opportunity":{
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.validate"
     }
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"sri_venkatesa_enterprises.tasks.all"
-#	],
-#	"daily": [
-#		"sri_venkatesa_enterprises.tasks.daily"
-#	],
-#	"hourly": [
-#		"sri_venkatesa_enterprises.tasks.hourly"
-#	],
-#	"weekly": [
-#		"sri_venkatesa_enterprises.tasks.weekly"
-#	],
-#	"monthly": [
-#		"sri_venkatesa_enterprises.tasks.monthly"
-#	],
-# }
+scheduler_events = {
+ "cron": {
+        "0 2 * * *": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.make_notification"
+    }
+}
 
 # Testing
 # -------

@@ -120,11 +120,3 @@ frappe.ui.form.on("Lead", {
         };
     },
 })
-
-frappe.ui.form.on("Follow Ups", {
-    follow_ups_add: function (frm, cdt, cdn) {
-        frappe.model.set_value(cdt, cdn, "followed_by", frappe.session.user)
-        frappe.model.set_value(cdt, cdn, "next_followup_by", frappe.session.user)
-        frappe.model.set_value(cdt, cdn, "date", frappe.datetime.nowdate())
-    }
-})
