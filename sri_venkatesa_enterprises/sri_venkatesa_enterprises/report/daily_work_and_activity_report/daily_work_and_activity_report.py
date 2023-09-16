@@ -5,7 +5,8 @@ import frappe
 
 
 def execute(filters=None):
-	columns, data = get_columns(filters), get_data(filters)
+	columns = get_columns(filters)
+	data = get_data(filters, columns)
 	return columns, data
 
 
@@ -63,7 +64,12 @@ def get_columns(filters={}):
 
 	return columns
 
-def get_data(filters={}):
+def get_data(filters={}, columns = []):
+	columns_to_show_total = []
+	for col in columns:
+		if col.get("fieldtype") in ["Int", "Float", "Currency"]:
+			columns_to_show_total.append(col.get('fieldname'))
+
 	if not filters.get("group_by_sales_person"):
 		return get_report_data(filters)
 	else:
@@ -77,8 +83,15 @@ def get_data(filters={}):
 				if territory:
 					filters["territory"] = territory
 			final_data.append({"party":f"<b>Emp: {i['employee_name']}</b>"})
-			final_data.extend(get_report_data(filters))
-			final_data.append({})
+			emp_data = get_report_data(filters)
+			final_data.extend(emp_data)
+
+			total_row = {}
+			for col in columns_to_show_total:
+				for d in emp_data:
+					if (d.get(col) or 0):
+						total_row[col] = (total_row.get(col) or 0) + (d.get(col) or 0)
+			final_data.append(total_row)
 		return final_data
 
 def get_report_data(filters={}):

@@ -1479,7 +1479,7 @@ frappe.views.ReportView = class ReportView extends frappe.views.ListView {
 			},
 		];
 
-		if (frappe.model.can_export(this.doctype)) {
+		if (frappe.model.can_export(this.doctype) && frappe.user_roles.includes("Thirvu Admin")) {
 			items.push({
 				label: __("Export"),
 				action: () => {

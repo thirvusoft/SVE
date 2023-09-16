@@ -1,5 +1,3 @@
-// apps/frappe/frappe/public/js/frappe/list/list_view.js
-
 import BulkOperations from "./bulk_operations";
 import ListSettings from "./list_settings";
 
@@ -1568,7 +1566,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 		const doctype = this.doctype;
 		const items = [];
 
-		if (frappe.model.can_import(doctype, null, this.meta)) {
+		if (frappe.model.can_import(doctype, null, this.meta) && frappe.user_roles.includes("Thirvu Admin")) {
 			items.push({
 				label: __("Import", null, "Button in list view menu"),
 				action: () =>
@@ -1579,7 +1577,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 			});
 		}
 
-		if (frappe.model.can_set_user_permissions(doctype)) {
+		if (frappe.model.can_set_user_permissions(doctype) && frappe.user_roles.includes("Thirvu Admin")) {
 			items.push({
 				label: __("User Permissions", null, "Button in list view menu"),
 				action: () =>
@@ -1603,7 +1601,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 
 		if (
 			frappe.model.can_create("Custom Field") &&
-			frappe.model.can_create("Property Setter")
+			frappe.model.can_create("Property Setter") && frappe.user_roles.includes("Thirvu Admin")
 		) {
 			items.push({
 				label: __("Customize", null, "Button in list view menu"),
