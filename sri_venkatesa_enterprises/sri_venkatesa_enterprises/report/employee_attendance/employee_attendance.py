@@ -11,6 +11,7 @@ def execute(filters=None):
 
 
 def get_columns():
+	is_admin_user = "SVE Admin" in frappe.get_roles()
 	columns = [
 		{
 			"fieldname":"date",
@@ -41,19 +42,22 @@ def get_columns():
 			"fieldname":"total_hrs",
 			"label":"Total Hrs",
 			"fieldtype":"Time",
-			"width":150
+			"width":150,
+			"hidden": not is_admin_user
 		},
 		{
 			"fieldname":"start_km",
 			"label":"Start Km",
 			"fieldtype":"Float",
-			"width":150
+			"width":150,
+			"hidden": not is_admin_user
 		},
 		{
 			"fieldname":"end_km",
 			"label":"End Km",
 			"fieldtype":"Float",
-			"width":150
+			"width":150,
+			"hidden": not is_admin_user
 		},
 		{
 			"fieldname":"total_km",
@@ -61,12 +65,19 @@ def get_columns():
 			"fieldtype":"Float",
 			"width":150
 		},
+		{
+			"fieldname":"actual_km",
+			"label":"Actual Total Km",
+			"fieldtype":"Float",
+			"width":150,
+			"hidden": not is_admin_user
+		},
 	]
 
 	return columns
 
 def get_data(filters={}):
-	att_filter = {}
+	att_filter = {"employee":["is", "set"]}
 	if filters.get("employee"):
 		att_filter["employee"] = filters["employee"]
 	if filters.get("from_date") and filters.get("to_date"):
@@ -84,8 +95,13 @@ def get_data(filters={}):
 		"start_km",
 		"end_km",
 		"total_distance as total_km",
+		"(end_km - start_km) as actual_km"
 		])
 	for i in att_data:
 		if(i["checkout_time"] and i["checkin_time"]):
 			i['total_hrs'] = (datetime.datetime.min + (i["checkout_time"] - i["checkin_time"])).time()
+		if i["checkin_time"]:
+			i["checkin_time"] = i["checkin_time"].strftime('%H:%M:%S')
+		if i["checkout_time"]:
+			i["checkout_time"] = i["checkout_time"].strftime('%H:%M:%S')
 	return att_data

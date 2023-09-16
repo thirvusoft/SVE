@@ -24,6 +24,7 @@ frappe.listview_settings["Employee In Out"] = {
                                     frappe.show_alert({"message":"<p>Failed to Create Checkin</p><p>Click on <b>Add Employee In Out</b> to create checkin</p>", "indicator":"red"})
                                 }
                                 dialog.hide()
+                                list_view.refresh()
                             }
                         })
                     }
@@ -62,6 +63,7 @@ frappe.listview_settings["Employee In Out"] = {
                                     frappe.show_alert({"message":"<p>Failed to Create CheckOut</p>", "indicator":"red"})
                                 }
                                 dialog.hide()
+                                list_view.refresh()
                             }
                         })
                     }

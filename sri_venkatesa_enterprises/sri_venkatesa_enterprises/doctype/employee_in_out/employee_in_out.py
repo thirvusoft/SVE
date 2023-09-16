@@ -37,6 +37,8 @@ def create_checkin(start_km=0):
 
 @frappe.whitelist()
 def validate_checkout():
+	if not frappe.db.exists("Employee In Out", {"attendance_date":nowdate(), "user":frappe.session.user}):
+		frappe.throw(f"""Checkin not Found for Date: {now_datetime().strftime("%d-%m-%y")}""")
 	doc = frappe.get_last_doc("Employee In Out", {"attendance_date":nowdate(), "user":frappe.session.user})
 	if doc.get("checkout_time"):
 		frappe.throw("Checkout already created")
@@ -49,7 +51,7 @@ def create_checkout(end_km=0, total_km=0):
 		frappe.throw("Checkout already created")
 	doc.update({
 		"end_km":float(end_km),
-		"total_km":float(total_km),
+		"total_distance":float(total_km),
 		"checkout_time":now_datetime()
 	})
 	doc.save()

@@ -68,7 +68,7 @@ def get_data(filters={}):
 		return get_report_data(filters)
 	else:
 		final_data = []
-		employee_list = frappe.get_all("Employee", filters={"status":["!=", "Inactive"]}, fields=["name", "employee_name"])
+		employee_list = frappe.get_list("Employee", filters={"status":["!=", "Inactive"]}, fields=["name", "employee_name"])
 		for i in employee_list:
 			filters["employee"] = i["name"]
 			user = frappe.db.get_value("Employee", filters["employee"], "user_id")
