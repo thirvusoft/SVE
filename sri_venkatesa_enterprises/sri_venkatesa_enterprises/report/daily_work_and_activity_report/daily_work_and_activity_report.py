@@ -16,7 +16,7 @@ def get_columns(filters={}):
 			"fieldname":"date",
 			"fieldtype":"Date",
 			"label":"Date",
-			"default": filters.get("date") or ""
+			"hidden": 1
 		},
 		{
 			"fieldname":"party",
@@ -114,9 +114,16 @@ def get_report_data(filters={}):
 	if user:
 		collection_value_filters["owner"] = user
 
-	if filters.get("date"):
-		order_value_filters["posting_date"] = filters["date"]
-		collection_value_filters["posting_date"] = filters["date"]
+	if filters.get("from_date"):
+		order_value_filters["posting_date"] = [">=", filters["from_date"]]
+		collection_value_filters["posting_date"] = [">=", filters["from_date"]]
+	if filters.get("to_date"):
+		order_value_filters["posting_date"] = ["<=", filters["to_date"]]
+		collection_value_filters["posting_date"] = ["<=", filters["to_date"]]
+	if filters.get("from_date") and filters.get("to_date"):
+		order_value_filters["posting_date"] = ["between", [filters["from_date"], filters["to_date"]]]
+		collection_value_filters["posting_date"] = ["between", [filters["from_date"], filters["to_date"]]]
+
 	if filters.get("territory"):
 		lft, rgt = frappe.db.get_value("Territory", filters["territory"], ["lft", "rgt"])
 		terr_list = frappe.get_list("Territory", filters={"lft":[">=", lft], "rgt":["<=", rgt]}, pluck="name")
@@ -144,8 +151,13 @@ def get_report_data(filters={}):
 	opportunity_filter = {}
 	if user:
 		opportunity_filter["owner"] = user
-	if filters.get("date"):
-		opportunity_filter["creation"] = ["between", (f"""{filters["date"]} 00:00:00""", f"""{filters["date"]} 23:59:59""")]
+	if filters.get("from_date"):
+		opportunity_filter["creation"] = [">=", filters.get("from_date")]
+	if filters.get("to_date"):
+		opportunity_filter["creation"] = ["<=", filters.get("to_date")]
+	if filters.get("from_date") and filters.get("to_date"):
+		opportunity_filter["creation"] = ["between", (f"""{filters["from_date"]} 00:00:00""", f"""{filters["to_date"]} 23:59:59""")]
+
 	if filters.get("territory"):
 		lft, rgt = frappe.db.get_value("Territory", filters["territory"], ["lft", "rgt"])
 		terr_list = frappe.get_list("Territory", filters={"lft":[">=", lft], "rgt":["<=", rgt]}, pluck="name")
