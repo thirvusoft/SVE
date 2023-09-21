@@ -122,9 +122,12 @@ after_migrate = "sri_venkatesa_enterprises.after_install.after_install"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Quotation": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Sales Invoice": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+}
 
 # Document Events
 # ---------------
