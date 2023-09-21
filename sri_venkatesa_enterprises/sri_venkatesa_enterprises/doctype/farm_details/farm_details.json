@@ -23,8 +23,7 @@
   "address__contacts_tab",
   "address_html",
   "column_break_pbms2",
-  "contact_html",
-  "check"
+  "contact_html"
  ],
  "fields": [
   {
@@ -122,16 +121,11 @@
    "label": "Route",
    "options": "Territory",
    "reqd": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "check",
-   "fieldtype": "Check"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-01 16:26:23.618516",
+ "modified": "2023-09-20 15:15:02.064313",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

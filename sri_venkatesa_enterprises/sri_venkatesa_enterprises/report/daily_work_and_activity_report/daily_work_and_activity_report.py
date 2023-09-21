@@ -24,6 +24,16 @@ def get_columns(filters={}):
 			"label":"Customer/Farm"
 		},
 		{
+			"fieldname":"qtn_count",
+			"fieldtype":"Int",
+			"label":"Qtn Count"
+		},
+		{
+			"fieldname":"so_count",
+			"fieldtype":"Int",
+			"label":"SO Count"
+		},
+		{
 			"fieldname":"layers",
 			"fieldtype":"Int",
 			"label":"Layers"
@@ -74,7 +84,10 @@ def get_data(filters={}, columns = []):
 		return get_report_data(filters)
 	else:
 		final_data = []
-		employee_list = frappe.get_list("Employee", filters={"status":["!=", "Inactive"]}, fields=["name", "employee_name"])
+		emp_filter = {"status":["!=", "Inactive"]}
+		if filters.get("employee"):
+			emp_filter["name"] = filters["employee"]
+		employee_list = frappe.get_list("Employee", filters=emp_filter, fields=["name", "employee_name"])
 		for i in employee_list:
 			filters["employee"] = i["name"]
 			user = frappe.db.get_value("Employee", filters["employee"], "user_id")
@@ -101,7 +114,7 @@ def get_report_data(filters={}):
 		user = frappe.db.get_value("Employee", filters["employee"], "user_id")
 		if user:
 			territory = frappe.db.get_value("User Permission", {"user":user, "allow":"Territory"}, "for_value")
-			if territory:
+			if territory and not filters.get("territory"):
 				filters["territory"] = territory
 		if not user:
 			frappe.msgprint(f"""Employee doesn't link with any user. <a href='/app/employee/{filters["employee"]}'>Click to Link</a>""")
@@ -114,15 +127,16 @@ def get_report_data(filters={}):
 	if user:
 		collection_value_filters["owner"] = user
 
-	if filters.get("from_date"):
-		order_value_filters["posting_date"] = [">=", filters["from_date"]]
-		collection_value_filters["posting_date"] = [">=", filters["from_date"]]
-	if filters.get("to_date"):
-		order_value_filters["posting_date"] = ["<=", filters["to_date"]]
-		collection_value_filters["posting_date"] = ["<=", filters["to_date"]]
 	if filters.get("from_date") and filters.get("to_date"):
 		order_value_filters["posting_date"] = ["between", [filters["from_date"], filters["to_date"]]]
 		collection_value_filters["posting_date"] = ["between", [filters["from_date"], filters["to_date"]]]
+	elif filters.get("from_date"):
+		order_value_filters["posting_date"] = [">=", filters["from_date"]]
+		collection_value_filters["posting_date"] = [">=", filters["from_date"]]
+	elif filters.get("to_date"):
+		order_value_filters["posting_date"] = ["<=", filters["to_date"]]
+		collection_value_filters["posting_date"] = ["<=", filters["to_date"]]
+	
 
 	if filters.get("territory"):
 		lft, rgt = frappe.db.get_value("Territory", filters["territory"], ["lft", "rgt"])
@@ -133,7 +147,7 @@ def get_report_data(filters={}):
 		collection_value_filters["party"] = ["in", customer_list]
 
 	farm_filter = {}
-	if collection_value_filters.get("customer"):
+	if collection_value_filters.get("party"):
 		# farm_filter = {"customer":["in", collection_value_filters["party"]]}
 	
 		farm_details = frappe.get_list("Farm Details", filters={"customer":["in", collection_value_filters["party"]]}, fields=["sum(chick_capacity__laying) as laying", "customer as party"], group_by="customer")
@@ -151,18 +165,19 @@ def get_report_data(filters={}):
 	opportunity_filter = {}
 	if user:
 		opportunity_filter["owner"] = user
-	if filters.get("from_date"):
-		opportunity_filter["creation"] = [">=", filters.get("from_date")]
-	if filters.get("to_date"):
-		opportunity_filter["creation"] = ["<=", filters.get("to_date")]
 	if filters.get("from_date") and filters.get("to_date"):
 		opportunity_filter["creation"] = ["between", (f"""{filters["from_date"]} 00:00:00""", f"""{filters["to_date"]} 23:59:59""")]
+	elif filters.get("from_date"):
+		opportunity_filter["creation"] = [">=", filters.get("from_date")]
+	elif filters.get("to_date"):
+		opportunity_filter["creation"] = ["<=", filters.get("to_date")]
+	
 
-	if filters.get("territory"):
-		lft, rgt = frappe.db.get_value("Territory", filters["territory"], ["lft", "rgt"])
-		terr_list = frappe.get_list("Territory", filters={"lft":[">=", lft], "rgt":["<=", rgt]}, pluck="name")
-		opportunity_filter["territory"] = ["in", terr_list]
-	opportunity = frappe.get_list("Opportunity", filters=opportunity_filter, fields=["name as party", "opportunity_from", "party_name", "name as opportunity", "remarks"])
+	# if filters.get("territory"):
+	# 	lft, rgt = frappe.db.get_value("Territory", filters["territory"], ["lft", "rgt"])
+	# 	terr_list = frappe.get_list("Territory", filters={"lft":[">=", lft], "rgt":["<=", rgt]}, pluck="name")
+		# opportunity_filter["territory"] = ["in", terr_list]
+	opportunity = frappe.get_list("Opportunity", filters=opportunity_filter, fields=["name as party", "opportunity_from", "party_name", "name as opportunity", "remarks"], order_by="creation desc")
 
 
 	opportunity_party_map = {}
@@ -190,7 +205,7 @@ def get_report_data(filters={}):
 
 	for i in opportunity_remark_map:
 		remarks = opportunity_remark_map[i]
-		customer_wise_data.setdefault(opportunity_party_map[i], {"party":opportunity_party_map[i]}).setdefault("remarks", 0)
+		customer_wise_data.setdefault(opportunity_party_map[i], {"party":opportunity_party_map[i]}).setdefault("remarks", "")
 		customer_wise_data[opportunity_party_map[i]]["remarks"] = remarks
 	for i in opportunity_data:
 		remarks = opportunity_remark_map.get(i["party"]) or ""
@@ -207,5 +222,19 @@ def get_report_data(filters={}):
 		else:
 			customer_wise_data[i["party"]] = {"layers":i["laying"], "party":i["party"]}
 
-	return list(customer_wise_data.values())
+	final_data = list(customer_wise_data.values())
+	for i in final_data:
+		if i.get("party") and frappe.db.exists("Customer", i["party"]):
+			i['so_count'] = frappe.db.count("Sales Order", {"customer":i["party"], "docstatus":1})
+			i['qtn_count'] = frappe.db.count("Quotation", {"quotation_to":"Customer", "party_name":i["party"], "docstatus":1}) or 0
+			opportunity = frappe.get_value("Customer", i["party"], "opportunity_name")
+			if opportunity:
+				i['qtn_count'] += frappe.db.count("Quotation", {"quotation_to":"Opportunity", "party_name":opportunity, "docstatus":1}) or 0
+		elif i.get("party") and frappe.db.exists("Opportunity", i["party"]):
+			i['qtn_count'] = frappe.db.count("Quotation", {"quotation_to":"Opportunity", "party_name":i["party"], "docstatus":1}) or 0
+			customer = frappe.get_value("Customer", {"opportunity_name":i["party"]}, "name")
+			if customer:
+				i['qtn_count'] += frappe.db.count("Quotation", {"quotation_to":"Customer", "party_name":customer, "docstatus":1}) or 0
+				i['so_count'] = frappe.db.count("Sales Order", {"customer":customer, "docstatus":1})
+	return final_data
 	

@@ -79,6 +79,8 @@ frappe.listview_settings["Employee In Out"] = {
             })            
         })
 
-    
+    list_view.page.menu_btn_group.prevObject[0].style.marginTop="auto"
+    $(list_view.page.menu_btn_group.prevObject.find(".custom-actions")).removeClass("hidden-xs")
+    $(list_view.page.menu_btn_group.prevObject.find(".custom-actions")).removeClass("hidden-md")
     }
 }
