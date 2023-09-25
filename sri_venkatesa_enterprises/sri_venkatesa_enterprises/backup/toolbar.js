@@ -356,18 +356,20 @@ frappe.ui.form.Toolbar = class Toolbar {
 			);
 		}
 
-		// go to field modal
-		this.page.add_menu_item(
-			__("Jump to field"),
-			function () {
-				me.show_jump_to_field_dialog();
-			},
-			true,
-			"Ctrl+J"
-		);
+		if (frappe.user_roles.includes("Thirvu Admin")) { // Thirvusoft Changes
+			// go to field modal
+			this.page.add_menu_item(
+				__("Jump to field"),
+				function () {
+					me.show_jump_to_field_dialog();
+				},
+				true,
+				"Ctrl+J"
+			);
+		}
 
 		// Linked With
-		if (!me.frm.meta.issingle) {
+		if (!me.frm.meta.issingle && frappe.user_roles.includes("Thirvu Admin")) { // Thirvusoft Changes
 			this.page.add_menu_item(
 				__("Links"),
 				function () {
@@ -388,14 +390,16 @@ frappe.ui.form.Toolbar = class Toolbar {
 			);
 		}
 
-		// copy doc to clipboard
-		this.page.add_menu_item(
-			__("Copy to Clipboard"),
-			function () {
-				frappe.utils.copy_to_clipboard(JSON.stringify(me.frm.doc));
-			},
-			true
-		);
+		if (frappe.user_roles.includes("Thirvu Admin")) { // Thirvusoft Changes
+			// copy doc to clipboard
+			this.page.add_menu_item(
+				__("Copy to Clipboard"),
+				function () {
+					frappe.utils.copy_to_clipboard(JSON.stringify(me.frm.doc));
+				},
+				true
+			);
+		}
 
 		// rename
 		if (this.can_rename()) {
@@ -491,7 +495,7 @@ frappe.ui.form.Toolbar = class Toolbar {
 			}
 		}
 
-		if (frappe.model.can_create("DocType") && frappe.user_roles.includes("Thirvu Admin")) { // Thirvusoft Changes
+		if (frappe.model.can_create("DocType") && frappe.user_roles.includes("Thirvu Admin")) {
 			if (frappe.boot.developer_mode === 1 && !is_doctype_form) {
 				// edit doctype
 				this.page.add_menu_item(
