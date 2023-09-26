@@ -43,7 +43,7 @@
    "fieldname": "chick_capacity__laying",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Chick Capacity - Laying"
+   "label": "Total Capacity - Laying"
   },
   {
    "fieldname": "customer",
@@ -125,7 +125,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-20 15:15:02.064313",
+ "modified": "2023-09-25 15:46:21.604585",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Farm Details",

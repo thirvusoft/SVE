@@ -162,6 +162,12 @@ doc_events = {
     },
     "Opportunity":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.validate"
+    },
+    "GL Entry": {
+        "on_submit": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_outstanding_amount"
+    },
+    "Sales Order": {
+        "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
     }
 }
 
