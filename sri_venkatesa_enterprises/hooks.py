@@ -11,7 +11,7 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/sri_venkatesa_enterprises/css/sri_venkatesa_enterprises.css"
+app_include_css = "/assets/sri_venkatesa_enterprises/css/sve.css"
 app_include_js = [
     "sve.bundle.js"
 ]

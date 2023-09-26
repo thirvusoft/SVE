@@ -10,6 +10,7 @@
   "batch_size",
   "status",
   "order_id",
+  "create",
   "order_value",
   "outstanding",
   "collection_value",
@@ -76,17 +77,24 @@
    "label": "Gift Issued"
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Remarks"
+  },
+  {
+   "columns": 1,
+   "fieldname": "create",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Create"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-25 17:08:19.852767",
+ "modified": "2023-09-26 12:40:11.477333",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Customer Daily Activity",
