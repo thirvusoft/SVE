@@ -1,5 +1,18 @@
 frappe.ui.form.on("Opportunity", {
     refresh: function(frm){
+        if (frm.is_new()) {
+            var user=frappe.session.user;
+            if(user){
+                frappe.db.get_value("Employee",{"user_id":user}, "name", (r) => {
+                    if(r["name"]){
+                        frm.set_value("custom_employee",r["name"])
+                    }
+                 
+                })
+            }
+            
+		}
+
         var options = {
             enableHighAccuracy: true,
             timeout: 5000,
