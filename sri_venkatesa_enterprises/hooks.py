@@ -11,7 +11,7 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/sri_venkatesa_enterprises/css/sri_venkatesa_enterprises.css"
+app_include_css = "/assets/sri_venkatesa_enterprises/css/sve.css"
 app_include_js = [
     "sve.bundle.js"
 ]
@@ -162,6 +162,13 @@ doc_events = {
     },
     "Opportunity":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.validate"
+    },
+    "GL Entry": {
+        "on_submit": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_outstanding_amount"
+    },
+    "Sales Order": {
+        "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
+        "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
     }
 }
 

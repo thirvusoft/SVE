@@ -1,7 +1,9 @@
 __version__ = '0.0.1'
-import frappe
 
-def get_user_details(user=frappe.session.user):
+def get_user_details(user=None):
+    import frappe
+    if not user:
+        user = frappe.session.user
     ret_dict = frappe._dict()
     ret_dict.update({
         "employee":frappe.db.get_value("Employee", {"user_id":user}, "name"),
