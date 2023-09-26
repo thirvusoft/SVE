@@ -7,12 +7,21 @@
  "engine": "InnoDB",
  "field_order": [
   "customer",
-  "appointment_time",
+  "appointment_date",
+  "create",
   "remarks",
   "column_break_qz6ct",
   "outstanding_amount",
   "payment_date",
-  "collection_value"
+  "collection_value",
+  "section_break_8xazk",
+  "appointment_todo",
+  "column_break_i5qkf",
+  "payment_todo",
+  "notification_log_section",
+  "appointment_notification_log",
+  "column_break_txawm",
+  "payment_notification_log"
  ],
  "fields": [
   {
@@ -26,48 +35,105 @@
   },
   {
    "columns": 2,
-   "fieldname": "appointment_time",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Appointment Time"
-  },
-  {
-   "columns": 2,
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Remarks"
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "outstanding_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Outstanding Amount"
+   "label": "Outstanding Amount",
+   "read_only": 1
   },
   {
-   "columns": 1,
+   "columns": 2,
    "fieldname": "payment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Payment Date"
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "collection_value",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Collection Value"
+   "label": "Collection Value",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_qz6ct",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_8xazk",
+   "fieldtype": "Section Break",
+   "label": "ToDo"
+  },
+  {
+   "columns": 2,
+   "fieldname": "appointment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Appointment Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "create",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Create"
+  },
+  {
+   "fieldname": "appointment_todo",
+   "fieldtype": "Link",
+   "label": "Appointment ToDo",
+   "no_copy": 1,
+   "options": "ToDo",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_i5qkf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_todo",
+   "fieldtype": "Link",
+   "label": "Payment ToDo",
+   "no_copy": 1,
+   "options": "ToDo",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notification_log_section",
+   "fieldtype": "Section Break",
+   "label": "Notification Log"
+  },
+  {
+   "fieldname": "appointment_notification_log",
+   "fieldtype": "Link",
+   "label": "Appointment Notification Log",
+   "options": "Notification Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_txawm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_notification_log",
+   "fieldtype": "Link",
+   "label": "Payment Notification Log",
+   "options": "Notification Log",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-25 16:08:29.645511",
+ "modified": "2023-09-26 18:14:01.769063",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Daily Activity Appointments",
