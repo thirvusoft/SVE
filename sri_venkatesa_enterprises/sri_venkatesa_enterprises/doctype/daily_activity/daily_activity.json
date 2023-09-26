@@ -95,7 +95,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-25 17:02:59.403385",
+ "modified": "2023-09-26 17:33:01.439404",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Daily Activity",
@@ -110,6 +110,17 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
    "share": 1,
    "write": 1
   }

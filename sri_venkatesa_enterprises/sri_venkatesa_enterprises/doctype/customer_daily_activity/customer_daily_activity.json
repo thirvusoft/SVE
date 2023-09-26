@@ -38,7 +38,8 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Status"
+   "label": "Status",
+   "options": "Open\nInterested\nNot Interested"
   },
   {
    "columns": 1,
@@ -94,7 +95,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-26 12:40:11.477333",
+ "modified": "2023-09-26 17:25:35.482746",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Customer Daily Activity",
