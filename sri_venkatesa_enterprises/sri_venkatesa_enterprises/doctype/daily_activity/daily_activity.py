@@ -13,6 +13,32 @@ class DailyActivity(Document):
 	def get_employee_id(self):
 		if self.get("__islocal"):
 			self.employee = sve.get_user_details().employee
+	
+	def validate(self):
+		self.set_customer_details()
+
+	def set_customer_details(self):
+		if self.date:
+			for row in self.for_customer:
+				if row.customer:
+					row.batch_size = sum(frappe.db.get_list('Farm Details', {'customer': row.customer}, pluck = 'chick_capacity__laying'))
+					value = get_customer_order_ids_and_values(row.customer, self.date)
+					row.order_id = value.get('ids') or ''
+					row.order_value = value.get('values') or 0
+					row.outstanding = value.get('outstanding_amount') or 0
+					row.collection_value = value.get('paid_amount') or 0
+				
+			for row in self.for_doctor_and_dealer:
+				if row.customer:
+					value = get_customer_order_ids_and_values(row.customer, self.date)
+					row.order_id = value.get('ids') or ''
+					row.order_value = value.get('values') or 0
+					row.outstanding = value.get('outstanding_amount') or 0
+					row.collection_value = value.get('paid_amount') or 0
+		else:
+			for row in self.for_customer:
+				if row.customer:
+					row.batch_size = sum(frappe.db.get_list('Farm Details', {'customer': row.customer}, pluck = 'chick_capacity__laying'))
 
 @frappe.whitelist()
 def get_customer_order_ids_and_values(customer, date):
