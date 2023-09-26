@@ -10,6 +10,7 @@
   "batch_size",
   "status",
   "order_id",
+  "create",
   "order_value",
   "outstanding",
   "collection_value",
@@ -81,12 +82,19 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Remarks"
+  },
+  {
+   "columns": 1,
+   "fieldname": "create",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Create"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-22 15:25:17.933671",
+ "modified": "2023-09-26 12:40:11.477333",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Customer Daily Activity",
