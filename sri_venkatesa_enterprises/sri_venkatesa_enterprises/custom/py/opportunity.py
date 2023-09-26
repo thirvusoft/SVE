@@ -10,7 +10,7 @@ def validate(doc, event=None):
 	validate_lead_approval(doc)
 	get_customer_details(doc)
 	if not doc.is_new():
-		appointment_todo(doc)
+		appointment_payment_todo(doc)
 	
 def validate_lead_approval(doc):
 	if doc.opportunity_from == "Lead":
