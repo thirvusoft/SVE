@@ -122,5 +122,31 @@ frappe.ui.form.on("Opportunity", {
     },
     opportunity_from:function(frm){
         frm.events.apply_farm_filter(frm)
-    }
+    },
+    custom_date:function(frm){
+        frm.trigger("party_name");
+
+    },
+    party_name: async function (frm) {
+		if (frm.doc.custom_date) {
+				if (frm.doc.party_name) {  
+                    let res = await frappe.db.get_list('Farm Details', { filters: { 'customer': frm.doc.party_name }, fields: ['sum(chick_capacity__laying) as ccl'] });
+			        frm.set_value('custom_batch_size', (res && res[0] && res[0].ccl) ? res[0].ccl : 0);
+					frappe.call({
+						method: 'sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.get_customer_order_ids_and_values',
+						args: {
+							customer: frm.doc.party_name,
+							date: frm.doc.custom_date
+						},
+						callback: function (r) {
+							frm.set_value('custom_order_id', r.message.ids || '');
+							frm.set_value('custom_order_value', r.message.values || '');
+							frm.set_value('custom_outstanding', r.message.outstanding_amount || '');
+							frm.set_value('custom_collection_value', r.message.paid_amount || '');
+						}
+					});
+				}
+			
+		}
+	}
 })

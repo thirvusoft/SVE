@@ -115,8 +115,8 @@ frappe.ui.form.on('Daily Activity', {
 							date: frm.doc.date
 						},
 						callback: function (r) {
-							frappe.model.set_value(cdt, cdn, 'order_id', r.message.order_ids || '');
-							frappe.model.set_value(cdt, cdn, 'order_value', r.message.order_values || '');
+							frappe.model.set_value(cdt, cdn, 'order_id', r.message.ids || '');
+							frappe.model.set_value(cdt, cdn, 'order_value', r.message.values || '');
 							frappe.model.set_value(cdt, cdn, 'outstanding', r.message.outstanding_amount || '');
 							frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
 						}
