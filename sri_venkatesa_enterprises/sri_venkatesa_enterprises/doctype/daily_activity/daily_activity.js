@@ -11,6 +11,7 @@ frappe.ui.form.on('Daily Activity', {
 					frm.refresh_field("employee")
 				}
 			});
+			frm.trigger('date');
 		}
 
 		['for_customer', 'for_doctor_and_dealer', 'appointments'].forEach(table => {
@@ -23,7 +24,7 @@ frappe.ui.form.on('Daily Activity', {
 			});
 		});
 
-		(frm.doc.for_doctor_and_dealer || []).concat(frm.doc.for_customer || []).forEach(row => {
+		(frm.doc.for_doctor_and_dealer || []).concat(frm.doc.for_customer || []).concat(frm.doc.appointments || []).forEach(row => {
 			frm.fields_dict[row.parentfield].grid.grid_rows[row.idx - 1].make_control(frm.fields_dict[row.parentfield].grid.grid_rows[row.idx - 1].columns.create)
 		});
 
@@ -109,7 +110,7 @@ frappe.ui.form.on('Daily Activity', {
 	},
 	date: function (frm) {
 		if (frm.doc.date) {
-			(frm.doc.for_doctor_and_dealer || []).concat(frm.doc.for_customer || []).forEach(row => {
+			(frm.doc.for_doctor_and_dealer || []).concat(frm.doc.for_customer || []).concat(frm.doc.appointments || []).forEach(row => {
 				let cdt = row.doctype, cdn = row.name;
 				if (row.customer) {
 					frappe.call({
@@ -119,10 +120,15 @@ frappe.ui.form.on('Daily Activity', {
 							date: frm.doc.date
 						},
 						callback: function (r) {
-							frappe.model.set_value(cdt, cdn, 'order_id', r.message.ids || '');
-							frappe.model.set_value(cdt, cdn, 'order_value', r.message.values || '');
-							frappe.model.set_value(cdt, cdn, 'outstanding', r.message.outstanding_amount || '');
-							frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
+							if (row.parentfield == 'appointments')  {
+								frappe.model.set_value(cdt, cdn, 'outstanding_amount', r.message.outstanding_amount || '');
+								frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
+							} else {
+								frappe.model.set_value(cdt, cdn, 'order_id', r.message.ids || '');
+								frappe.model.set_value(cdt, cdn, 'order_value', r.message.values || '');
+								frappe.model.set_value(cdt, cdn, 'outstanding', r.message.outstanding_amount || '');
+								frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
+							}
 						}
 					});
 				}
@@ -193,6 +199,34 @@ frappe.ui.form.on("Doctor Dealer Daily Activity", {
 	}
 });
 
+frappe.ui.form.on("Daily Activity Appointments", {
+	customer: async function (frm, cdt, cdn) {
+		let data = locals[cdt][cdn];
+		if (data.customer) {
+			if (frm.doc.date) {
+				frappe.call({
+					method: 'sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.get_customer_order_ids_and_values',
+					args: {
+						customer: data.customer,
+						date: frm.doc.date
+					},
+					callback: function (r) {
+						frappe.model.set_value(cdt, cdn, 'outstanding_amount', r.message.outstanding_amount || '');
+						frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
+					}
+				});
+			}
+		}
+	},
+	appointments_add: function (frm, cdt, cdn) {
+		let data = locals[cdt][cdn];
+		frm.fields_dict.appointments.grid.grid_rows[data.idx - 1].make_control(frm.fields_dict.appointments.grid.grid_rows[data.idx - 1].columns.create)
+	},
+	create: function (frm, cdt, cdn) {
+		show_create_dialog(frm, cdt, cdn)
+	}
+});
+
 function show_create_dialog(frm, cdt, cdn) {
 	let d = new frappe.ui.Dialog({
 		title: 'Create',
@@ -200,14 +234,10 @@ function show_create_dialog(frm, cdt, cdn) {
 			{
 				fieldname: "sales_order",
 				label: __("Sales Order"),
-				fieldtype: "Check",
-				default: 1,
-				onchange: function () {
-					if (cur_dialog.get_field("sales_order").get_value()) {
-						cur_dialog.get_field("payment_entry").set_value(0);
-					} else if (!cur_dialog.get_field("payment_entry").get_value()) {
-						cur_dialog.get_field("sales_order").set_value(1);
-					}
+				fieldtype: "Button",
+				click: function() {
+					let row = locals[cdt][cdn]
+					frappe.new_doc('Sales Order', { 'customer': row.customer });
 				}
 			},
 			{
@@ -216,33 +246,19 @@ function show_create_dialog(frm, cdt, cdn) {
 			{
 				fieldname: "payment_entry",
 				label: __("Payment Entry"),
-				fieldtype: "Check",
-				onchange: function () {
-					if (cur_dialog.get_field("payment_entry").get_value()) {
-						cur_dialog.get_field("sales_order").set_value(0);
-					} else if (!cur_dialog.get_field("sales_order").get_value()) {
-						cur_dialog.get_field("payment_entry").set_value(1);
-					}
+				fieldtype: "Button",
+				click: function () {
+					let row = locals[cdt][cdn]
+					frappe.new_doc('Payment Entry', {
+						'payment_type': 'Receive',
+						'party_type': 'Customer',
+						'party': row.customer,
+					}).then(() => {
+						cur_frm.set_value('party', row.customer);
+					});
 				}
 			},
-		],
-		primary_action_label: __("Create"),
-		primary_action: function (data) {
-			let row = locals[cdt][cdn]
-			if (data.sales_order) {
-				frappe.new_doc('Sales Order', { 'customer': row.customer });
-			} else if (data.payment_entry) {
-				frappe.new_doc('Payment Entry', {
-					'payment_type': 'Receive',
-					'party_type': 'Customer',
-					'party': row.customer,
-				}).then(() => {
-					cur_frm.set_value('party', row.customer);
-				});
-			} else {
-				frappe.msgprint('Please choose either <b>Sales Order</b> or <b>Payment Entry</b>', __('Value Missing'));
-			}
-		}
+		]
 	});
 
 	d.show();

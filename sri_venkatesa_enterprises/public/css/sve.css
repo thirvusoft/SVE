@@ -22,3 +22,12 @@
 .form-in-grid .btn {
     box-shadow: var(--btn-shadow);
 }
+
+.form-grid .grid-static-col .ellipsis {
+    white-space: unset !important;
+	overflow: hidden;
+	text-overflow: unset !important;
+	max-width: 100%;
+	vertical-align: middle;
+	word-break: break-all;
+}
