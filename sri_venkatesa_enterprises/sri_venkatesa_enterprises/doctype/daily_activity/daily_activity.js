@@ -1,5 +1,7 @@
 // Copyright (c) 2023, Thirvusoft and contributors
 // For license information, please see license.txt
+frappe.provide('sve');
+var login_btn, logout_btn;
 
 frappe.ui.form.on('Daily Activity', {
 	refresh: function (frm) {
@@ -30,83 +32,118 @@ frappe.ui.form.on('Daily Activity', {
 
 		frm.trigger("add_login_and_logout_btn");
 	},
+	login_logout_btn_visibility: function (frm) {
+		if (login_btn && logout_btn) {
+
+			document.querySelector(`button[data-fieldtype="Button"][data-fieldname="login"]`).classList.add('btn-primary')
+			document.querySelector(`button[data-fieldtype="Button"][data-fieldname="logout"]`).classList.add('btn-primary')
+
+
+			function btnVisible() {
+				window.requestAnimationFrame(btnVisible);
+				if (sve.isVisible(login_btn[0])) {
+					frm.set_df_property('login', 'hidden', 1)
+				} else {
+					frm.set_df_property('login', 'hidden', 0)
+				}
+
+				if (sve.isVisible(logout_btn[0])) {
+					frm.set_df_property('logout', 'hidden', 1)
+				} else {
+					frm.set_df_property('logout', 'hidden', 0)
+				}
+			}
+
+			try {
+				btnVisible();;
+			} catch (error) {
+				console.log('Error caught:', error);
+			}
+		}
+	},
+	login: function (frm) {
+		let dialog = new frappe.ui.Dialog({
+			title: "Enter Start Km",
+			fields: [
+				{ fieldname: "start_km", label: "Start Km", fieldtype: "Float", reqd: 1 }
+			],
+			primary_action(data) {
+				if (!data.start_km) {
+					frappe.throw("Start Km is Mandatory")
+				}
+				else {
+					frappe.call({
+						method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.create_checkin",
+						args: {
+							start_km: data.start_km
+						},
+						callback(r) {
+							if (r.message) {
+								frappe.show_alert({ "message": "Checkin Created Successfully", "indicator": "green" })
+							}
+							else {
+								frappe.show_alert({ "message": "<p>Failed to Create Checkin</p><p>Click on <b>Add Employee In Out</b> to create checkin</p>", "indicator": "red" })
+							}
+							dialog.hide()
+						}
+					})
+				}
+			}
+		})
+		dialog.show()
+	},
+	logout: function (frm) {
+		let dialog = new frappe.ui.Dialog({
+			title: "Enter End Km",
+			fields: [
+				{ fieldname: "end_km", label: "End Km", fieldtype: "Float", reqd: 1 },
+				{ fieldname: "total_km", label: "Total Km", fieldtype: "Float", reqd: 1 }
+			],
+			primary_action(data) {
+				if (!data.end_km) {
+					frappe.throw("End Km is Mandatory")
+				}
+				else if (!data.total_km) {
+					frappe.throw("Total Km is Mandatory")
+				}
+				else {
+					frappe.call({
+						method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.create_checkout",
+						args: {
+							end_km: data.end_km,
+							total_km: data.total_km
+						},
+						callback(r) {
+							if (r.message) {
+								frappe.show_alert({ "message": "CheckOut Created Successfully", "indicator": "green" })
+							}
+							else {
+								frappe.show_alert({ "message": "<p>Failed to Create CheckOut</p>", "indicator": "red" })
+							}
+							dialog.hide()
+						}
+					})
+				}
+			}
+		})
+		frappe.call({
+			method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.validate_checkout",
+			callback(r) {
+				if (r.message) {
+					dialog.show()
+				}
+			}
+		})
+	},
 	add_login_and_logout_btn: function (frm) {
-		frm.add_custom_button(__("Login"), function () {
-			let dialog = new frappe.ui.Dialog({
-				title: "Enter Start Km",
-				fields: [
-					{ fieldname: "start_km", label: "Start Km", fieldtype: "Float", reqd: 1 }
-				],
-				primary_action(data) {
-					if (!data.start_km) {
-						frappe.throw("Start Km is Mandatory")
-					}
-					else {
-						frappe.call({
-							method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.create_checkin",
-							args: {
-								start_km: data.start_km
-							},
-							callback(r) {
-								if (r.message) {
-									frappe.show_alert({ "message": "Checkin Created Successfully", "indicator": "green" })
-								}
-								else {
-									frappe.show_alert({ "message": "<p>Failed to Create Checkin</p><p>Click on <b>Add Employee In Out</b> to create checkin</p>", "indicator": "red" })
-								}
-								dialog.hide()
-							}
-						})
-					}
-				}
-			})
-			dialog.show()
+		login_btn = frm.add_custom_button(__("Login"), function () {
+			frm.trigger('login')
+		}).addClass('btn-primary')
 
-		})
-
-		frm.add_custom_button(__("Logout"), function () {
-			let dialog = new frappe.ui.Dialog({
-				title: "Enter End Km",
-				fields: [
-					{ fieldname: "end_km", label: "End Km", fieldtype: "Float", reqd: 1 },
-					{ fieldname: "total_km", label: "Total Km", fieldtype: "Float", reqd: 1 }
-				],
-				primary_action(data) {
-					if (!data.end_km) {
-						frappe.throw("End Km is Mandatory")
-					}
-					else if (!data.total_km) {
-						frappe.throw("Total Km is Mandatory")
-					}
-					else {
-						frappe.call({
-							method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.create_checkout",
-							args: {
-								end_km: data.end_km,
-								total_km: data.total_km
-							},
-							callback(r) {
-								if (r.message) {
-									frappe.show_alert({ "message": "CheckOut Created Successfully", "indicator": "green" })
-								}
-								else {
-									frappe.show_alert({ "message": "<p>Failed to Create CheckOut</p>", "indicator": "red" })
-								}
-								dialog.hide()
-							}
-						})
-					}
-				}
-			})
-			frappe.call({
-				method: "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.employee_in_out.employee_in_out.validate_checkout",
-				callback(r) {
-					if (r.message) {
-						dialog.show()
-					}
-				}
-			})
-		})
+		logout_btn = frm.add_custom_button(__("Logout"), function () {
+			frm.trigger('logout')
+		}).addClass('btn-primary')
+		frm.trigger('login_logout_btn_visibility');
 	},
 	date: function (frm) {
 		if (frm.doc.date) {
@@ -120,7 +157,7 @@ frappe.ui.form.on('Daily Activity', {
 							date: frm.doc.date
 						},
 						callback: function (r) {
-							if (row.parentfield == 'appointments')  {
+							if (row.parentfield == 'appointments') {
 								frappe.model.set_value(cdt, cdn, 'outstanding_amount', r.message.outstanding_amount || '');
 								frappe.model.set_value(cdt, cdn, 'collection_value', r.message.paid_amount || '');
 							} else {
@@ -235,7 +272,7 @@ function show_create_dialog(frm, cdt, cdn) {
 				fieldname: "sales_order",
 				label: __("Sales Order"),
 				fieldtype: "Button",
-				click: function() {
+				click: function () {
 					let row = locals[cdt][cdn]
 					frappe.new_doc('Sales Order', { 'customer': row.customer });
 				}

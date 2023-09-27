@@ -13,6 +13,10 @@
   "employee",
   "join_work",
   "section_break_elcur",
+  "login",
+  "column_break_agnag",
+  "logout",
+  "section_break_eagqk",
   "for_customer",
   "section_break_xqqvi",
   "for_doctor_and_dealer",
@@ -91,11 +95,29 @@
    "fieldtype": "Table",
    "label": "Appointments",
    "options": "Daily Activity Appointments"
+  },
+  {
+   "fieldname": "section_break_eagqk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "login",
+   "fieldtype": "Button",
+   "label": "Login"
+  },
+  {
+   "fieldname": "column_break_agnag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "logout",
+   "fieldtype": "Button",
+   "label": "Logout"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-25 17:02:59.403385",
+ "modified": "2023-09-27 15:20:28.779083",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Daily Activity",
