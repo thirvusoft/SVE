@@ -25,8 +25,20 @@ def appointment_payment_todo(doc,event=None):
 			frappe.msgprint("There is no user id in employee")
 		doc_ = frappe.new_doc("ToDo") 
 
-		if frappe.db.exists("ToDo", {'reference_name': doc.name,'date':doc.next_follow_up}):
+		if frappe.db.exists("ToDo", {'reference_name': doc.name,'date':doc.next_follow_up,"custom_opportunity_appointment":1}):
 			doc_ = frappe.get_doc("ToDo", {'reference_name': doc.name})
+			doc_.update({
+				'date': doc.custom_payment_date,
+				'allocated_to': emp_user.user_id,
+				'description': f'Assignment for Payment Followup {doc.doctype} {doc.name}',
+				'reference_type': doc.doctype,
+				'reference_name': doc.name,
+				'assigned_by': frappe.session.user,
+				'custom_opportunity_payment':1
+			})
+			doc_.flags.ignore_permissions = True
+			doc_.flags.ignore_links = True
+			doc_.save()
 		else:
 			doc_.update({
 				'date': doc.next_follow_up,
@@ -35,6 +47,7 @@ def appointment_payment_todo(doc,event=None):
 				'reference_type': doc.doctype,
 				'reference_name': doc.name,
 				'assigned_by': frappe.session.user,
+				"custom_opportunity_appointment":1
 			})
 			doc_.flags.ignore_permissions = True
 			doc_.flags.ignore_links = True
@@ -46,8 +59,20 @@ def appointment_payment_todo(doc,event=None):
 		if not emp_user.user_id:
 			frappe.msgprint("There is no user id in employee")
 		doc_ = frappe.new_doc("ToDo")        
-		if frappe.db.exists("ToDo", {'reference_name': doc.name,'date':doc.custom_payment_date}):
+		if frappe.db.exists("ToDo", {'reference_name': doc.name,'date':doc.custom_payment_date,"custom_opportunity_payment":1}):
 			doc_ = frappe.get_doc("ToDo", {'reference_name': doc.name})
+			doc_.update({
+				'date': doc.custom_payment_date,
+				'allocated_to': emp_user.user_id,
+				'description': f'Assignment for Payment Followup {doc.doctype} {doc.name}',
+				'reference_type': doc.doctype,
+				'reference_name': doc.name,
+				'assigned_by': frappe.session.user,
+				'custom_opportunity_payment':1
+			})
+			doc_.flags.ignore_permissions = True
+			doc_.flags.ignore_links = True
+			doc_.save()
 
 		else:
 			doc_.update({
@@ -57,6 +82,7 @@ def appointment_payment_todo(doc,event=None):
 				'reference_type': doc.doctype,
 				'reference_name': doc.name,
 				'assigned_by': frappe.session.user,
+				'custom_opportunity_payment':1
 			})
 			doc_.flags.ignore_permissions = True
 			doc_.flags.ignore_links = True
