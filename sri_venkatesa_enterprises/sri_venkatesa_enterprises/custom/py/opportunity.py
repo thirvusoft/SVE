@@ -19,7 +19,7 @@ def validate_lead_approval(doc):
 			frappe.throw(_("Lead is not Approved"))
 			
 def appointment_payment_todo(doc,event=None):
-	if doc.next_follow_up:
+	if doc.next_follow_up and doc.custom_employee:
 		emp_user = frappe.get_doc("Employee", {'name':doc.custom_employee},pluck="user_id")
 		if not emp_user.user_id:
 			frappe.msgprint("There is no user id in employee")
@@ -41,7 +41,7 @@ def appointment_payment_todo(doc,event=None):
 			doc_.insert()
 
 
-	if doc.custom_payment_date:
+	if doc.custom_payment_date and doc.custom_employee:
 		emp_user = frappe.get_doc("Employee", {'name':doc.custom_employee},pluck="user_id")
 		if not emp_user.user_id:
 			frappe.msgprint("There is no user id in employee")

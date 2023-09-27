@@ -168,6 +168,7 @@ frappe.ui.form.on("Opportunity", {
 })
 
 
+
 function show_create_dialog(frm, cdt, cdn) {
 	let d = new frappe.ui.Dialog({
 		title: 'Create',
@@ -175,14 +176,10 @@ function show_create_dialog(frm, cdt, cdn) {
 			{
 				fieldname: "sales_order",
 				label: __("Sales Order"),
-				fieldtype: "Check",
-				default: 1,
-				onchange: function () {
-					if (cur_dialog.get_field("sales_order").get_value()) {
-						cur_dialog.get_field("payment_entry").set_value(0);
-					} else if (!cur_dialog.get_field("payment_entry").get_value()) {
-						cur_dialog.get_field("sales_order").set_value(1);
-					}
+				fieldtype: "Button",
+				click: function() {
+					let row = locals[cdt][cdn]
+					frappe.new_doc('Sales Order', { 'customer': row.customer });
 				}
 			},
 			{
@@ -191,33 +188,19 @@ function show_create_dialog(frm, cdt, cdn) {
 			{
 				fieldname: "payment_entry",
 				label: __("Payment Entry"),
-				fieldtype: "Check",
-				onchange: function () {
-					if (cur_dialog.get_field("payment_entry").get_value()) {
-						cur_dialog.get_field("sales_order").set_value(0);
-					} else if (!cur_dialog.get_field("sales_order").get_value()) {
-						cur_dialog.get_field("payment_entry").set_value(1);
-					}
+				fieldtype: "Button",
+				click: function () {
+					let row = locals[cdt][cdn]
+					frappe.new_doc('Payment Entry', {
+						'payment_type': 'Receive',
+						'party_type': 'Customer',
+						'party': row.customer,
+					}).then(() => {
+						cur_frm.set_value('party', row.customer);
+					});
 				}
 			},
-		],
-		primary_action_label: __("Create"),
-		primary_action: function (data) {
-			let row = locals[cdt][cdn]
-			if (data.sales_order) {
-				frappe.new_doc('Sales Order', { 'customer': row.customer });
-			} else if (data.payment_entry) {
-				frappe.new_doc('Payment Entry', {
-					'payment_type': 'Receive',
-					'party_type': 'Customer',
-					'party': row.customer,
-				}).then(() => {
-					cur_frm.set_value('party', row.customer);
-				});
-			} else {
-				frappe.msgprint('Please choose either <b>Sales Order</b> or <b>Payment Entry</b>', __('Value Missing'));
-			}
-		}
+		]
 	});
 
 	d.show();
