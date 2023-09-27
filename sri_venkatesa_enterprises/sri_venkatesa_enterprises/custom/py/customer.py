@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils.data import cint, cstr
 
 def maintance_contact_details(doc,actions):
   
@@ -101,3 +102,27 @@ def get_farm_list(ref_doctype, ref_name):
              <p>Compatible Breeds: {i["compatible_breed"] or ""}</p>
                 """
     return farm_list
+
+def create_farm(self, event=None):
+    if self.flags.is_new_doc and self.get("batch_size"):
+        doc = frappe.new_doc('Farm Details')
+        doc.update({
+            "customer": self.name,
+            "chick_capacity__laying": self.get("batch_size"),
+            "farm_name": (self.get('customer_name') or '') + ' Farm'
+        })
+        if frappe.db.get_value("Farm Details", doc.get("farm_name")) and not frappe.flags.in_import:
+            count = frappe.db.sql(
+                """select ifnull(MAX(CAST(SUBSTRING_INDEX(name, ' ', -1) AS UNSIGNED)), 0) from `tabFarm Details`
+                    where name like %s""",
+                "%{0} - %".format(self.customer_name),
+                as_list=1,
+            )[0][0]
+            count = cint(count) + 1
+
+            doc.update({
+                "__newname": "{0} - {1}".format(self.customer_name, cstr(count))
+            })
+
+        doc.insert()
+
