@@ -15,7 +15,8 @@
   "order_value",
   "outstanding",
   "collection_value",
-  "remarks"
+  "remarks",
+  "demo_products"
  ],
  "fields": [
   {
@@ -74,7 +75,7 @@
    "read_only": 1
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "in_list_view": 1,
@@ -86,12 +87,19 @@
    "fieldtype": "Button",
    "in_list_view": 1,
    "label": "Create"
+  },
+  {
+   "columns": 1,
+   "fieldname": "demo_products",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Demo Products"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-26 18:14:39.258482",
+ "modified": "2023-09-27 16:59:11.466680",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Doctor Dealer Daily Activity",
