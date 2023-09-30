@@ -141,7 +141,10 @@ doc_events = {
                           ],
         "validate" : ["sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.maintance_contact_details",
                       "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.set_exisiting_farm"
-                      ]
+                      ],
+        "on_update": [
+            "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.create_farm"
+        ]
     },
     "Item":{
         "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.item.update_price",

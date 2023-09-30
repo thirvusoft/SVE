@@ -62,6 +62,8 @@ class DailyActivity(Document):
 	def delete_todo(self, delete_all=None):
 		if not self.get('__islocal'):
 			appointment_row_names = [row.name for row in self.appointments]
+			for_customer_row_names = [row.name for row in self.for_customer]
+			for_doctor_row_names = [row.name for row in self.for_doctor_and_dealer]
 			old_doc = self.get_doc_before_save() or (self if delete_all else frappe._dict())
 			for row in old_doc.get('appointments') or []:
 				if row.name not in appointment_row_names or delete_all:
@@ -82,6 +84,19 @@ class DailyActivity(Document):
 						payment_notification_log = row.payment_notification_log
 						row.db_set('payment_notification_log', '')
 						frappe.delete_doc('Notification Log', payment_notification_log)
+
+			for row in old_doc.get('for_customer') or []:
+				if row.name not in for_customer_row_names or delete_all:
+					if row.todo:
+						todo = row.todo
+						row.db_set('todo', '')
+						frappe.delete_doc('ToDo', todo)
+			for row in old_doc.get('for_doctor_and_dealer') or []:
+				if row.name not in for_doctor_row_names or delete_all:
+					if row.todo:
+						todo = row.todo
+						row.db_set('todo', '')
+						frappe.delete_doc('ToDo', todo)
 		
 		for row in self.appointments:
 			if not row.appointment_date:
@@ -97,6 +112,18 @@ class DailyActivity(Document):
 				row.db_set('payment_notification_log', '')
 				frappe.delete_doc('ToDo', payment_todo)
 				frappe.delete_doc('Notification Log', payment_notification_log)
+
+		for row in self.for_customer:
+			if not row.next_follow_up:
+				todo = row.todo
+				row.db_set('todo', '')
+				frappe.delete_doc('ToDo', todo)
+
+		for row in self.for_doctor_and_dealer:
+			if not row.next_follow_up:
+				todo = row.todo
+				row.db_set('todo', '')
+				frappe.delete_doc('ToDo', todo)
 
 	def create_todo_for_appointments(self):
 		employee_user = (frappe.db.get_value("Employee", self.employee, 'user_id') or '') if self.employee else ''
@@ -160,6 +187,39 @@ class DailyActivity(Document):
 				})
 				payment_notification_log_doc.save()
 				row.db_set('payment_notification_log', payment_notification_log_doc.name)
+
+		for row in self.for_customer:
+			if row.next_follow_up:
+				if row.todo:
+					appointment_todo_doc = frappe.get_doc("ToDo", row.todo)
+				else:
+					appointment_todo_doc = frappe.new_doc("ToDo")
+				appointment_todo_doc.update({
+					'description': f"""Assignemnt for Next followup for {row.customer} at {row.get_formatted('next_follow_up')} in {self.doctype} {self.name}""",
+					'allocated_to': employee_user,
+					'date': row.next_follow_up,
+					'reference_type': self.doctype,
+					'reference_name': self.name
+				})
+				appointment_todo_doc.save()
+				row.db_set('todo', appointment_todo_doc.name)
+
+		for row in self.for_doctor_and_dealer:
+			if row.next_follow_up:
+				if row.todo:
+					appointment_todo_doc = frappe.get_doc("ToDo", row.todo)
+				else:
+					appointment_todo_doc = frappe.new_doc("ToDo")
+				appointment_todo_doc.update({
+					'description': f"""Assignemnt for Next Doctor/Dealer followup for {row.customer} at {row.get_formatted('next_follow_up')} in {self.doctype} {self.name}""",
+					'allocated_to': employee_user,
+					'date': row.next_follow_up,
+					'reference_type': self.doctype,
+					'reference_name': self.name
+				})
+				appointment_todo_doc.save()
+				row.db_set('todo', appointment_todo_doc.name)
+		
 
 @frappe.whitelist()
 def get_customer_order_ids_and_values(customer, date):
