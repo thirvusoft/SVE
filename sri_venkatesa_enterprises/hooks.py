@@ -40,7 +40,7 @@ doctype_js = {
     "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js",
     "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js"
     }
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {"Employee Checkin" : "sri_venkatesa_enterprises/custom/js/employee_checkin_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
