@@ -37,7 +37,7 @@ frappe.ui.form.ContactAddressQuickEntryForm = class ContactAddressQuickEntryForm
         },
         {
 			fieldtype: "Section Break",
-			label: __("Primary Contact Details"),
+			label: __("Contact Details"),
 			collapsible: 1
 		},
 		{
@@ -47,25 +47,32 @@ frappe.ui.form.ContactAddressQuickEntryForm = class ContactAddressQuickEntryForm
 			options: "Email",
 		},
 		{
+			label: __("Designation"),
+			fieldname: "designation",
+			fieldtype: "Link",
+			options: "Designation",
+		},
+		{
 			fieldtype: "Column Break"
 		},
 		{
 			label: __("Mobile Number"),
 			fieldname: "mobile_number",
-			fieldtype: "Data"
+			fieldtype: "Data",
+			reqd:1
 		},
 		{
 			fieldtype: "Section Break",
-			label: __("Primary Address Details"),
+			label: __("Address Details"),
 			collapsible: 1
 		},
 		{
-			label: __("Address Line 1"),
+			label: __("Door No/Street"),
 			fieldname: "address_line1",
 			fieldtype: "Data"
 		},
 		{
-			label: __("Address Line 2"),
+			label: __("Taluk/Mandal"),
 			fieldname: "address_line2",
 			fieldtype: "Data"
 		},
@@ -75,12 +82,23 @@ frappe.ui.form.ContactAddressQuickEntryForm = class ContactAddressQuickEntryForm
 			fieldtype: "Data"
 		},
 		{
+			label: __("Aadhar no"),
+			fieldname: "aadhar_no",
+			fieldtype: "Data"
+		},
+		{
 			fieldtype: "Column Break"
 		},
 		{
 			label: __("City"),
 			fieldname: "city",
 			fieldtype: "Data"
+		},
+		{
+			label: __("District"),
+			fieldname: "district",
+			fieldtype: "Link",
+			options:"District"
 		},
 		{
 			label: __("State"),
