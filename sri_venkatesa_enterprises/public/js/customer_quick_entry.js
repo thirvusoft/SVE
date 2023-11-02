@@ -9,6 +9,10 @@ frappe.ui.form.ContactAddressQuickEntryForm = class ContactAddressQuickEntryForm
 	render_dialog() {
 		this.mandatory = this.mandatory.concat(this.get_variant_fields());
 		super.render_dialog();
+		this.dialog.set_value("country", "India")
+		const state_field = this.dialog.get_field("state");
+        const country = this.dialog.get_value("country");
+        state_field.set_data(frappe.boot.india_state_options || []);
 	}
 
 	insert() {
@@ -103,7 +107,7 @@ frappe.ui.form.ContactAddressQuickEntryForm = class ContactAddressQuickEntryForm
 		{
 			label: __("State"),
 			fieldname: "state",
-			fieldtype: "Data"
+			fieldtype: "Autocomplete"
 		},
 		{
 			label: __("Country"),

@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.utils.data import cint, cstr
 from erpnext.selling.doctype.customer.customer import Customer
 
@@ -177,7 +178,7 @@ def make_address(args, is_primary_address=1):
             "{0} <br><br> <ul>{1}</ul>".format(msg, "\n".join(reqd_fields)),
             title=_("Missing Values Required"),
         )
-
+    frappe.errprint(args.get("gstin") or "None")
     address = frappe.get_doc(
         {
             "doctype": "Address",
@@ -189,9 +190,10 @@ def make_address(args, is_primary_address=1):
             "state": args.get("state"),
             "pincode": args.get("pincode"),
             "custom_aadhar_no": args.get("aadhar_no"),
-            "country": args.get("country"),
+            "country": args.get("country") or "India",
             "gstin": args.get("gstin"),
             "links": [{"link_doctype": args.get("doctype"), "link_name": args.get("name")}],
+            "gst_category": "Registered Regular" if args.get("gstin") else "Unregistered",
         }
     ).insert()
 
