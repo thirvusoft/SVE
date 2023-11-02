@@ -31,3 +31,13 @@
 	vertical-align: middle;
 	word-break: break-all;
 }
+
+.input-with-feedback {
+    border: 1px solid #8e7e7e;
+    border-radius: 5px;
+}
+
+.control-input.form-control.table-multiselect {
+    border: 1px solid #8e7e7e;
+    border-radius: 5px;
+}
