@@ -9,6 +9,14 @@ frappe.ui.form.on("Sales Invoice", {
 				}
 			};
         })
+		setTimeout(()=>{
+			frm.remove_custom_button("Fetch Timesheet");
+			frm.remove_custom_button("Dunning","Create");
+			frm.remove_custom_button("Subscription","Create");
+			frm.remove_custom_button("Maintenance Schedule","Create");
+			frm.remove_custom_button("Payment Request","Create");
+			frm.remove_custom_button("Invoice Discounting","Create");
+		},250)
     }
 })
 

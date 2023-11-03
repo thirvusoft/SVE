@@ -7,7 +7,11 @@ from frappe.model.document import Document
 
 class DailyActivity(Document):
 	def autoname(self):
-		self.name = f"{self.employee}-{self.get_formatted('date')}"
+		prnt_route = frappe.db.get_value("Territory", {"name":self.route}, "parent_territory")
+		abbr = frappe.db.get_value("Territory", {"name":self.route}, "custom_territory_abbr")
+		if not abbr:
+			abbr = frappe.db.get_value("Territory", {"name":prnt_route}, "custom_territory_abbr")
+		self.name = f"{abbr}-{self.employee}-{self.get_formatted('date')}"
 
 	@frappe.whitelist()
 	def get_employee_id(self):

@@ -40,7 +40,9 @@ doctype_js = {
     "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js",
     "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js"
     }
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+        "Sales Invoice" : "sri_venkatesa_enterprises/custom/js/sales_invoice_list.js"
+    }   
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -128,6 +130,8 @@ override_doctype_class = {
     "Sales Invoice": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     # "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
+    "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer"
 }
 
 # Document Events
