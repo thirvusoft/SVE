@@ -61,14 +61,14 @@ def update():
         frappe.db.set_value("Sales Invoice", i, "updated", 1, update_modified=False)
         frappe.db.commit()
 
-batch=frappe.get_all("Batch", pluck="name")
-for i in batch:
-    pur=frappe.get_all("Purchase Invoice Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(stock_qty) as qty"], group_by="batch_no")
-    if not pur:
-        pur = frappe.get_all("Purchase Receipt Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(stock_qty) as qty"], group_by="batch_no")
-    if not pur:
-        pur = frappe.get_all("Stock Reconciliation Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(qty) as qty"], group_by="batch_no")
-    si = frappe.get_all("Sales Invoice Item", filters={"docstatus":1, "batch_no":i, "parent":["not in", ["A00177", "A00178", "A00168", "A00172", "A00176", "A00182", "A00187", "A00194"]]}, fields=["sum(stock_qty) as qty"], group_by="batch_no") or [{"qty":0}]
-    bal=frappe.get_value("Batch", i, "batch_qty")
-    if bal != pur[0]["qty"]-si[0]["qty"]:
-        print(i, bal, pur[0]["qty"], si[0]["qty"], pur[0]["qty"]-si[0]["qty"])
+# batch=frappe.get_all("Batch", pluck="name")
+# for i in batch:
+#     pur=frappe.get_all("Purchase Invoice Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(stock_qty) as qty"], group_by="batch_no")
+#     if not pur:
+#         pur = frappe.get_all("Purchase Receipt Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(stock_qty) as qty"], group_by="batch_no")
+#     if not pur:
+#         pur = frappe.get_all("Stock Reconciliation Item", filters={"docstatus":1, "batch_no":i}, fields=["sum(qty) as qty"], group_by="batch_no")
+#     si = frappe.get_all("Sales Invoice Item", filters={"docstatus":1, "batch_no":i, "parent":["not in", ["A00177", "A00178", "A00168", "A00172", "A00176", "A00182", "A00187", "A00194"]]}, fields=["sum(stock_qty) as qty"], group_by="batch_no") or [{"qty":0}]
+#     bal=frappe.get_value("Batch", i, "batch_qty")
+#     if bal != pur[0]["qty"]-si[0]["qty"]:
+#         print(i, bal, pur[0]["qty"], si[0]["qty"], pur[0]["qty"]-si[0]["qty"])

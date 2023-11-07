@@ -3,6 +3,7 @@
 
 import frappe
 import datetime
+from frappe.utils import get_time
 
 
 def execute(filters=None):
@@ -81,27 +82,37 @@ def get_data(filters={}):
 	if filters.get("employee"):
 		att_filter["employee"] = filters["employee"]
 	if filters.get("from_date") and filters.get("to_date"):
-		att_filter["attendance_date"] = ["between", (filters.get("from_date"), filters.get("to_date"))]
+		att_filter["time"] = ["between", (filters.get("from_date"), filters.get("to_date"))]
 	elif filters.get("from_date"):
-		att_filter["attendance_date"] = [">=", filters.get("from_date")]
+		att_filter["time"] = [">=", filters.get("from_date")]
 	elif filters.get("to_date"):
-		att_filter["attendance_date"] = ["<=", filters.get("to_date")]
-	att_data = frappe.get_list("Employee In Out", filters=att_filter, fields=
-		[
-		"checkin_time as date",
-		"employee", 
-		"checkin_time",
-		"checkout_time",
-		"start_km",
-		"end_km",
-		"total_distance as total_km",
-		"(end_km - start_km) as actual_km"
-		])
+		att_filter["time"] = ["<=", filters.get("to_date")]
+	# Extract the date part from the 'time' field
+	att_data = frappe.get_list("Employee Checkin", filters=att_filter, fields=[
+		"DATE(time) as date",
+		"employee"
+	], group_by='date')
+
 	for i in att_data:
-		if(i["checkout_time"] and i["checkin_time"]):
-			i['total_hrs'] = (datetime.datetime.min + (i["checkout_time"] - i["checkin_time"])).time()
-		if i["checkin_time"]:
-			i["checkin_time"] = i["checkin_time"].strftime('%H:%M:%S')
-		if i["checkout_time"]:
-			i["checkout_time"] = i["checkout_time"].strftime('%H:%M:%S')
+		if frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time'):
+			i['checkin_time'] = get_time(frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time')[0]['time'])
+		
+		if frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time'):
+			i['checkout_time'] = get_time(frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time')[0]['time'])
+			
+		if(i.get("checkout_time") and i.get("checkin_time")):
+			i['total_hrs'] = (datetime.datetime.min + (frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time')[0]['time']- frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time')[0]['time'])).time()
+
+		if frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'start_km'):
+			i['start_km'] = frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'start_km')[0]['start_km']
+			
+		if frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'end_km'):
+			i['end_km'] = frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'end_km')[0]['end_km']
+		
+		if frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'total_km'):
+			i['total_km'] = frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'total_km')[0]['total_km']
+
+		if i.get('start_km') and i.get('end_km'):
+			i['actual_km'] = i.get('end_km') - i.get('start_km')
+
 	return att_data

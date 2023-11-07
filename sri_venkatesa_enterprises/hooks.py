@@ -38,10 +38,12 @@ doctype_js = {
     "Quotation": "sri_venkatesa_enterprises/custom/js/quotation.js",
     "Sales Invoice":"sri_venkatesa_enterprises/custom/js/sales_invoice.js",
     "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js",
-    "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js"
+    "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js",
+    "Payment Entry":"sri_venkatesa_enterprises/custom/js/payment_entry.js"
     }
 doctype_list_js = {
-        "Sales Invoice" : "sri_venkatesa_enterprises/custom/js/sales_invoice_list.js"
+        "Sales Invoice" : "sri_venkatesa_enterprises/custom/js/sales_invoice_list.js",
+        "Employee Checkin" : "sri_venkatesa_enterprises/custom/js/employee_checkin_list.js"
     }   
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -131,7 +133,8 @@ override_doctype_class = {
     # "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
-    "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer"
+    "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer",
+    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote"
 }
 
 # Document Events
@@ -177,6 +180,9 @@ doc_events = {
     "Sales Order": {
         "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
         "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
+    },
+    'Employee Checkin':{
+        "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
     }
 }
 
@@ -184,9 +190,12 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
- "cron": {
+    "cron": {
         "0 2 * * *": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.opportunity.make_notification"
-    }
+    },
+    "daily": [
+        "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.remind_employees_on_insurance_expiry"
+    ]
 }
 
 # Testing

@@ -1,32 +1,33 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:district_name",
- "creation": "2023-11-01 15:39:49.129570",
+ "autoname": "field:certificate_name",
+ "creation": "2023-11-07 10:26:59.416885",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "district_name"
+  "certificate_name"
  ],
  "fields": [
   {
-   "allow_in_quick_entry": 1,
-   "fieldname": "district_name",
+   "fieldname": "certificate_name",
    "fieldtype": "Data",
-   "label": "District Name",
+   "in_list_view": 1,
+   "label": "Certificate Name",
+   "reqd": 1,
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-11-03 14:19:44.681633",
+ "modified": "2023-11-07 11:18:11.946143",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
- "name": "District",
+ "name": "Certificate Type",
  "name_case": "UPPER CASE",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
