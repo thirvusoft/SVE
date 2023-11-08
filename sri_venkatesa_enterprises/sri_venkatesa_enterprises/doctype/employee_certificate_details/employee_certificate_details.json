@@ -7,7 +7,10 @@
  "engine": "InnoDB",
  "field_order": [
   "certificate_type",
-  "attach_certificate"
+  "certificate_no",
+  "attach_certificate",
+  "remarks",
+  "certificate"
  ],
  "fields": [
   {
@@ -23,13 +26,34 @@
    "fieldtype": "Attach",
    "in_list_view": 1,
    "label": "Attach Certificate",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.certificate == \"File\""
+  },
+  {
+   "fieldname": "certificate_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Certificate No",
+   "mandatory_depends_on": "eval:doc.certificate == \"Certificate Number\""
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fetch_from": "certificate_type.certificate_type",
+   "fieldname": "certificate",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Certificate",
+   "options": "\nCertificate Number\nFile"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-11-07 10:27:38.591481",
+ "modified": "2023-11-08 10:11:43.244453",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Employee Certificate Details",

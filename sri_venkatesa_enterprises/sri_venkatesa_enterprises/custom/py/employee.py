@@ -92,3 +92,50 @@ def alert_admin_on_insurance_expiry(role_to_alert, employees=[]):
 		"seen_by":other_users,
 	})
 	note.insert()
+ 
+def ssa_creation(doc,action):
+	if not doc.get("__islocal"):
+		ssa=frappe.db.get_all("Salary Structure Assignment", filters={"employee":doc.name, "salary_structure":["!=", doc.custom_salary_structure], 'docstatus': 1}, 
+						fields=["name"])
+		for ss in ssa:
+			ssa_structure=frappe.get_doc("Salary Structure Assignment", ss.name)
+			ssa_structure.cancel()
+			ssa_structure.delete()
+
+		if doc.custom_salary_structure:
+			assignment=frappe.get_all("Salary Structure Assignment", {"employee":doc.employee, "salary_structure":doc.custom_salary_structure, 'docstatus': 1})
+			if assignment:
+				pass
+			else:
+				ssa_doc=frappe.new_doc("Salary Structure Assignment")
+				ssa_doc.employee=doc.name
+				ssa_doc.salary_structure=doc.custom_salary_structure
+				ssa_doc.department=doc.department
+				ssa_doc.designation=doc.designation
+				ssa_doc.from_date=doc.date_of_joining
+				ssa_doc.company=doc.company
+				ssa_doc.save()
+				ssa_doc.submit()
+    
+def ssa_creation_afterinsert(doc,action):
+	ssa=frappe.db.get_all("Salary Structure Assignment", filters={"employee":doc.name, "salary_structure":["!=", doc.custom_salary_structure], 'docstatus': 1}, 
+					fields=["name"])
+	for ss in ssa:
+		ssa_structure=frappe.get_doc("Salary Structure Assignment", ss.name)
+		ssa_structure.cancel()
+		ssa_structure.delete()
+
+	if doc.custom_salary_structure:
+		assignment=frappe.get_all("Salary Structure Assignment", {"employee":doc.employee, "salary_structure":doc.custom_salary_structure, 'docstatus': 1})
+		if assignment:
+			pass
+		else:
+			ssa_doc=frappe.new_doc("Salary Structure Assignment")
+			ssa_doc.employee=doc.name
+			ssa_doc.salary_structure=doc.custom_salary_structure
+			ssa_doc.department=doc.department
+			ssa_doc.designation=doc.designation
+			ssa_doc.from_date=doc.date_of_joining
+			ssa_doc.company=doc.company
+			ssa_doc.save()
+			ssa_doc.submit()

@@ -183,6 +183,10 @@ doc_events = {
     },
     'Employee Checkin':{
         "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
+    },
+    "Employee":{
+        "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation",
+        "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation_afterinsert"
     }
 }
 
