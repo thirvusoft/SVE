@@ -181,9 +181,9 @@ doc_events = {
         "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
         "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
     },
-    'Employee Checkin':{
-        "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
-    },
+    # 'Employee Checkin':{
+    #     "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
+    # },
     "Employee":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation",
         "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation_afterinsert"
