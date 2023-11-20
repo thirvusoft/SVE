@@ -135,7 +135,8 @@ override_doctype_class = {
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
     "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer",
-    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote"
+    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote",
+    "Salary Slip":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.salary_slip.TSSalarySlip"
 }
 
 # Document Events

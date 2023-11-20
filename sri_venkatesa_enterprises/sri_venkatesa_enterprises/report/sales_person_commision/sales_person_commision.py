@@ -64,7 +64,7 @@ def get_data(filters):
 			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":row.item_code},"incentive_percentage")
 			if not incentive_value:
 				row.combine = True
-				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage")
+				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage") or 0
 			row.incentive_amount=row.net_amount*(incentive_value/100)
 			row.incentive_percentage=incentive_value
 			row.sales_value=row.net_amount
@@ -98,7 +98,7 @@ def get_data(filters):
 			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":row.item_code},"incentive_percentage")
 			if not incentive_value:
 				row.combine = True
-				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage")
+				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage") or 0
 			row.incentive_amount=row.net_amount*(incentive_value/100)
 			row.incentive_percentage=incentive_value
 			row.sales_value=row.net_amount
