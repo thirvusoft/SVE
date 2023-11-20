@@ -40,7 +40,8 @@ doctype_js = {
     "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js",
     "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js",
     "Payment Entry":"sri_venkatesa_enterprises/custom/js/payment_entry.js",
-    "Item Group":"sri_venkatesa_enterprises/custom/js/item_group.js"
+    "Item Group":"sri_venkatesa_enterprises/custom/js/item_group.js",
+    "Purchase Invoice":"sri_venkatesa_enterprises/custom/js/purchase_invoice.js"
     }
 doctype_list_js = {
         "Sales Invoice" : "sri_venkatesa_enterprises/custom/js/sales_invoice_list.js",
