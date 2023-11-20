@@ -136,7 +136,8 @@ override_doctype_class = {
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
     "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer",
-    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote"
+    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote",
+    "Salary Slip":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.salary_slip.TSSalarySlip"
 }
 
 # Document Events
@@ -183,9 +184,9 @@ doc_events = {
         "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
         "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
     },
-    'Employee Checkin':{
-        "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
-    },
+    # 'Employee Checkin':{
+    #     "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
+    # },
     "Employee":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation",
         "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation_afterinsert"
