@@ -2,11 +2,15 @@
 # For license information, please see license.txt
 
 import frappe
-
+import calendar
 
 def execute(filters=None):
 	columns, data = get_columns(), get_data(filters)
-	return columns, data
+	
+	if data[1]:
+		return columns, data[0],f'<html><b style="color:green">Eligible</b></html>'
+	else:
+		return columns, data[0],f'<html><b style="color:red">Not Eligible</b></html>'
 
 def get_columns():
 	columns = [
@@ -45,12 +49,23 @@ def get_columns():
 	]
 	return columns
 def get_data(filters):
+	year=filters.get("year")
+	month=filters.get("month")
+	last_day = calendar.monthrange(int(year), int(month))
+	start_date = f"{year}-{int(month):02d}-01"
+	end_date = f"{year}-{int(month):02d}-{last_day[1]}"
 	if filters.get("sales_type") == "Sales Invoice":
-		sales_invoice=frappe.db.get_list("Sales Invoice", filters=[
-      			["posting_date", "between", [filters.get("from_date"), filters.get("to_date")]],
+		eiligible=frappe.db.get_value("Sales Person", {"name":filters.get("employee")}, "custom_monthly_sales_target")
+		roundedtotal=frappe.db.get_list("Sales Invoice", filters=[
+      			["posting_date", "between", [start_date, end_date]],
                 ["docstatus", "=", 1],
                 ["Sales Team", "sales_person", "=",filters.get("employee")]
-                ], pluck="name")  
+                ], fields=["sum(rounded_total) as rounded_total"], pluck="rounded_total") 
+		sales_invoice=frappe.db.get_list("Sales Invoice", filters=[
+      			["posting_date", "between",  [start_date, end_date]],
+                ["docstatus", "=", 1],
+                ["Sales Team", "sales_person", "=",filters.get("employee")]
+                ], pluck="name")
 		conditions={"parent":["in", sales_invoice]}
 		if filters.get("item_group"):
 			conditions.update({"item_group":filters.get("item_group")})
@@ -78,11 +93,21 @@ def get_data(filters):
 				item_group_incentive[key]["net_amount"]+=group.net_amount
 				item_group_incentive[key]["incentive_amount"]+=group.incentive_amount
 				item_group_incentive[key]["item_code"] =""
-				
-		return list(item_group_incentive.values())
+    
+		if (roundedtotal[0] or 0) > eiligible:
+			return list(item_group_incentive.values()), True
+		else:
+			return list(item_group_incentive.values()), False
+		
 	if filters.get("sales_type") == "Sales Order":
+		eiligible=frappe.db.get_value("Sales Person", {"name":filters.get("employee")}, "custom_monthly_sales_target")
+		roundedtotal =frappe.db.get_list("Sales Order", filters=[
+      				["transaction_date", "between", [start_date, end_date]],
+                	["docstatus", "=", 1],
+                	["Sales Team", "sales_person", "=", filters.get("employee")],
+                	],fields=["sum(rounded_total) as rounded_total"], pluck="rounded_total")
 		sales_order =frappe.db.get_list("Sales Order", filters=[
-      				["transaction_date", "between", [filters.get("from_date"), filters.get("to_date")]],
+      				["transaction_date", "between", [start_date, end_date]],
                 	["docstatus", "=", 1],
                 	["Sales Team", "sales_person", "=", filters.get("employee")],
                 	], pluck="name")
@@ -114,5 +139,9 @@ def get_data(filters):
 				item_group_incentive[key]["incentive_amount"]+=group.incentive_amount
 				item_group_incentive[key]["item_code"] =""
 				
-		return list(item_group_incentive.values())
+		if roundedtotal[0] or 0 > eiligible:
+			return list(item_group_incentive.values()), True
+		else:
+			return list(item_group_incentive.values()), False
+
 	
