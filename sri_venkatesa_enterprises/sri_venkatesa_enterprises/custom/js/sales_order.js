@@ -11,4 +11,5 @@ frappe.ui.form.on("Sales Order", {
             frm.remove_custom_button("Payment Request", "Create")
         }, 200)
     }
+    
 })
