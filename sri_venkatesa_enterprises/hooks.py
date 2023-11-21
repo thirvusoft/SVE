@@ -183,7 +183,7 @@ doc_events = {
     "Sales Order": {
         "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
         "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
-        "on_submit": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_order.on_submit"
+        "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_order.on_submit"
     },
     # 'Employee Checkin':{
     #     "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
