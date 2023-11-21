@@ -12,31 +12,17 @@ frappe.query_reports["Sales Person Commision"] = {
 			"reqd":1
 		},
 		{
-			"fieldname":"month",
-			"label":"Month",
-			"fieldtype":"Select",
-			"reqd":1,
-			"options": [
-                { "value": 1, "label": __("January") },                
-				{ "value": 2, "label": __("February") },
-                { "value": 3, "label": __("March") },                
-				{ "value": 4, "label": __("April") },
-                { "value": 5, "label": __("May") },                
-				{ "value": 6, "label": __("June") },
-                { "value": 7, "label": __("July") },                
-				{ "value": 8, "label": __("August") },
-                { "value": 9, "label": __("September") },                
-				{ "value": 10, "label": __("October") },
-                { "value": 11, "label": __("November") },                
-				{ "value": 12, "label": __("December") },
-            ],
-			"default": frappe.datetime.str_to_obj(frappe.datetime.get_today()).getMonth() + 1,
+			"fieldname":"from_date",
+			"label":"From Date",
+			"fieldtype":"Date",
+			"default":frappe.datetime.month_start(),
+			"reqd":1
 		},
 		{
-			"fieldname":"year",
-			"label":"Year",
-			"fieldtype":"Select",
-			"options": [],
+			"fieldname":"to_date",
+			"label":"To Date",
+			"fieldtype":"Date",
+			"default":frappe.datetime.month_end() ,
 			"reqd":1
 		},
 		{
@@ -59,14 +45,5 @@ frappe.query_reports["Sales Person Commision"] = {
 			"default":"Sales Invoice"
 		},
 		
-	],
-	onload: () => {
-		let today=frappe.datetime.get_today()
-		let year = parseInt(today.split("-")[0])
-		let years=[year-2, year-1, year, year+1, year+2]
-		frappe.query_report.get_filter("year").df.options=years
-		frappe.query_report.get_filter("year").set_options(year) 
-		frappe.query_report.set_filter_value("year", year)
-
-	}
+	]
 };
