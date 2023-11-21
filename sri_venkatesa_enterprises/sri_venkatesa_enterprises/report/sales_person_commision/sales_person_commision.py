@@ -46,32 +46,32 @@ def get_columns():
 	return columns
 def get_data(filters):
 	if filters.get("sales_type") == "Sales Invoice":
-		conditions =[["posting_date", "between", [filters.get("from_date"), filters.get("to_date")]],
+		sales_invoice=frappe.db.get_list("Sales Invoice", filters=[
+      			["posting_date", "between", [filters.get("from_date"), filters.get("to_date")]],
                 ["docstatus", "=", 1],
-                ["Sales Team", "sales_person", "=", filters.get("employee")],
-                ]
-
+                ["Sales Team", "sales_person", "=",filters.get("employee")]
+                ], pluck="name")  
+		conditions={"parent":["in", sales_invoice]}
 		if filters.get("item_group"):
-			conditions += [["Sales Invoice Item", "item_group", "=", filters.get("item_group")]]
+			conditions.update({"item_group":filters.get("item_group")})
 		if filters.get("item"):
-			conditions += [["Sales Invoice Item", "item_code", "=", filters.get("item")]]
-		data_list=frappe.db.get_list("Sales Invoice", 
+			conditions.update({"item_code":filters.get("item")})
+		data_list=frappe.db.get_list("Sales Invoice Item", 
                             filters=conditions,
-                            fields=["name","`tabSales Invoice Item`.item_code", "`tabSales Invoice Item`.item_group","sum(`tabSales Invoice Item`.net_amount) as net_amount" ,
-                                    "`tabSales Invoice Item`.parent", "`tabSales Team`.sales_person"],
-                            group_by="`tabSales Invoice Item`.item_code")
+                            fields=["item_code", "item_group","sum(net_amount) as net_amount", "parent"],
+							group_by="item_code")
 		for row in data_list:
-			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":row.item_code},"incentive_percentage")
+			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":filters.get("employee"), "item":row.item_code},"incentive_percentage")
 			if not incentive_value:
 				row.combine = True
-				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage") or 0
+				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":filters.get("employee"), "item":["is", "not set"]},"incentive_percentage") or 0
 			row.incentive_amount=row.net_amount*(incentive_value/100)
 			row.incentive_percentage=incentive_value
 			row.sales_value=row.net_amount
 			row.item=row.item_code
 		item_group_incentive={}
 		for group in data_list:
-			key=(f"{group.item_group}, {group.incentive_percnetage}, {group.combine if group.combine else group.item_code}")
+			key=(f"{group.item_group}, {group.incentive_percentage}, {group.combine if group.combine else group.item_code}")
 			if key not in item_group_incentive:
 				item_group_incentive[key]=group
 			else:
@@ -81,31 +81,32 @@ def get_data(filters):
 				
 		return list(item_group_incentive.values())
 	if filters.get("sales_type") == "Sales Order":
-		conditions =[["transaction_date", "between", [filters.get("from_date"), filters.get("to_date")]],
+		sales_order =frappe.db.get_list("Sales Order", filters=[
+      				["transaction_date", "between", [filters.get("from_date"), filters.get("to_date")]],
                 	["docstatus", "=", 1],
                 	["Sales Team", "sales_person", "=", filters.get("employee")],
-                	]
+                	], pluck="name")
+		conditions={"parent":["in", sales_order]}
 		if filters.get("item_group"):
-			conditions += [["Sales Order Item", "item_group", "=", filters.get("item_group")]]
+			conditions.update({"item_group": filters.get("item_group")})
 		if filters.get("item"):
-			conditions += [["Sales Order Item", "item_code", "=", filters.get("item")]]
-		data_list=frappe.db.get_list("Sales Order", 
+			conditions.update({"item_code":filters.get("item")})
+		data_list=frappe.db.get_list("Sales Order Item", 
                             filters=conditions, 
-                            fields=["name","`tabSales Order Item`.item_code", "`tabSales Order Item`.item_group","sum(`tabSales Order Item`.net_amount) as net_amount" ,
-                                    "`tabSales Order Item`.parent", "`tabSales Team`.sales_person"],
-                            group_by="`tabSales Order Item`.item_code")
+                            fields=["item_code", "item_group","sum(net_amount) as net_amount", "parent"],
+                            group_by="item_code")
 		for row in data_list:
-			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":row.item_code},"incentive_percentage")
+			incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":filters.get("employee"), "item":row.item_code},"incentive_percentage")
 			if not incentive_value:
 				row.combine = True
-				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":row.sales_person, "item":["is", "not set"]},"incentive_percentage") or 0
+				incentive_value=frappe.db.get_value("Employee Incentive Table", {"parent":row.item_group, "employee":filters.get("employee"), "item":["is", "not set"]},"incentive_percentage") or 0
 			row.incentive_amount=row.net_amount*(incentive_value/100)
 			row.incentive_percentage=incentive_value
 			row.sales_value=row.net_amount
 			row.item=row.item_code
 		item_group_incentive={}
 		for group in data_list:
-			key=(f"{group.item_group}, {group.incentive_percnetage}, {group.combine if group.combine else group.item_code}")
+			key=(f"{group.item_group}, {group.incentive_percentage}, {group.combine if group.combine else group.item_code}")
 			if key not in item_group_incentive:
 				item_group_incentive[key]=group
 			else:
