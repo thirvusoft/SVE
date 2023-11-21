@@ -33,3 +33,14 @@ frappe.query_reports["Monthly Employee Expense"] = {
 		}
 	]
 };
+
+function setroute(employee_name, from_date, to_date){
+	console.log(from_date)
+	frappe.route_options = {
+
+		employee: employee_name,
+		from_date: from_date,
+		to_date: to_date
+	   };
+	   frappe.set_route("query-report", "Employee Attendance")
+}
