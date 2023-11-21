@@ -1,9 +1,15 @@
 from erpnext.accounts.doctype.sales_invoice.sales_invoice import SalesInvoice
+from erpnext.selling.doctype.sales_order.sales_order import SalesOrder
+
 import frappe
 from sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_invoice import sales_contribution
 from erpnext.stock.stock_ledger import NegativeStockError
 
 class TsSellingController(SalesInvoice):
+    def calculate_contribution(self):
+        sales_contribution(self)
+
+class TsSalesOrderSellingController(SalesOrder):
     def calculate_contribution(self):
         sales_contribution(self)
 

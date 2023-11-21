@@ -132,7 +132,7 @@ after_install = "sri_venkatesa_enterprises.after_install.after_install"
 override_doctype_class = {
 	# "Quotation": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Sales Invoice": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
-    # "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSalesOrderSellingController",
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
     "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer",
