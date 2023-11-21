@@ -9,6 +9,7 @@ frappe.query_reports["Doctors Incentive"] = {
 			"label":"Doctor",
 			"fieldtype":"Link",
 			"options":"Sales Person",
+			"reqd":1,
 			"get_query": function () {
 				var unit = frappe.query_report.get_filter_value('doctor');
 				return {
