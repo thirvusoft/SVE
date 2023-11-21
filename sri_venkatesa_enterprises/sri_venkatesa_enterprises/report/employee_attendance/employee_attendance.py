@@ -73,6 +73,19 @@ def get_columns():
 			"width":150,
 			"hidden": not is_admin_user
 		},
+		{
+			"fieldname": "travel_expense",
+			"label": "Travel Expense",
+			"fieldtype": "Currency",
+			"width": 150
+		},
+
+		{
+			"fieldname": "daily_allowance",
+			"label": "Daily Allowance",
+			"fieldtype": "Currency",
+			"width": 150
+		}
 	]
 
 	return columns
@@ -91,8 +104,8 @@ def get_data(filters={}):
 	att_data = frappe.get_list("Employee Checkin", filters=att_filter, fields=[
 		"DATE(time) as date",
 		"employee"
-	], group_by='date')
-
+	], group_by= 'employee,date')
+	
 	for i in att_data:
 		if frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time'):
 			i['checkin_time'] = get_time(frappe.get_all('Employee Checkin',{'log_type':'IN','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'time')[0]['time'])
@@ -115,4 +128,10 @@ def get_data(filters={}):
 		if i.get('start_km') and i.get('end_km'):
 			i['actual_km'] = i.get('end_km') - i.get('start_km')
 
+			vehicle_used = frappe.get_all('Employee Checkin',{'log_type':'OUT','employee':i.get('employee'),'time':('between',[i.get('date'),i.get('date')])},'vehicle_used')[0]['vehicle_used']
+
+			i["travel_expense"] = frappe.get_all("Employee Vehicle Type", {"name": vehicle_used},"allowance_per_km", pluck = "allowance_per_km")[0] * i['actual_km']
+
+			i["daily_allowance"] = frappe.get_value("Employee", {"name": i.get('employee')}, "custom_daily_allowance")
+			
 	return att_data
