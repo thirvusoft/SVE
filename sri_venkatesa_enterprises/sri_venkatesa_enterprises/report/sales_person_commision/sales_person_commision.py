@@ -94,7 +94,7 @@ def get_data(filters):
 				item_group_incentive[key]["incentive_amount"]+=group.incentive_amount
 				item_group_incentive[key]["item_code"] =""
     
-		if roundedtotal[0] or 0 > eiligible:
+		if (roundedtotal[0] or 0) > eiligible:
 			return list(item_group_incentive.values()), True
 		else:
 			return list(item_group_incentive.values()), False
