@@ -4,7 +4,9 @@ frappe.listview_settings["Employee Checkin"] = {
             let dialog = new frappe.ui.Dialog({
                 title:"Enter Start Km",
                 fields:[
-                    {fieldname:"start_km", label:"Start Km", fieldtype:"Float", reqd:1}
+                    {fieldname:"start_km", label:"Start Km", fieldtype:"Float", reqd:1},
+                    {fieldtype:"Column Break"},
+                    {fieldname:"vehicle_used", label:"Vehicle Used", fieldtype:"Link", reqd:1, options:"Employee Vehicle Type", default:"BIKE"}
                 ],
                 primary_action(data){
                     if(!data.start_km){
@@ -14,7 +16,8 @@ frappe.listview_settings["Employee Checkin"] = {
                         frappe.call({
                             method:"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_checkin",
                             args:{
-                                start_km:data.start_km
+                                start_km:data.start_km,
+                                vehicle_used:data.vehicle_used
                             },
                             callback(r){
                                 if(r.message == 'Checkin already created'){

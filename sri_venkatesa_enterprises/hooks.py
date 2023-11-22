@@ -40,7 +40,8 @@ doctype_js = {
     "Stock Entry":"sri_venkatesa_enterprises/custom/js/stock_entry.js",
     "Sales Order":"sri_venkatesa_enterprises/custom/js/sales_order.js",
     "Payment Entry":"sri_venkatesa_enterprises/custom/js/payment_entry.js",
-    "Item Group":"sri_venkatesa_enterprises/custom/js/item_group.js"
+    "Item Group":"sri_venkatesa_enterprises/custom/js/item_group.js",
+    "Purchase Invoice":"sri_venkatesa_enterprises/custom/js/purchase_invoice.js"
     }
 doctype_list_js = {
         "Sales Invoice" : "sri_venkatesa_enterprises/custom/js/sales_invoice_list.js",
@@ -82,7 +83,7 @@ jinja = {
 # ------------
 
 after_install = "sri_venkatesa_enterprises.after_install.after_install"
-after_migrate = "sri_venkatesa_enterprises.after_install.after_install"
+# after_migrate = "sri_venkatesa_enterprises.after_install.after_install"
 
 # Uninstallation
 # ------------
@@ -131,11 +132,12 @@ after_migrate = "sri_venkatesa_enterprises.after_install.after_install"
 override_doctype_class = {
 	# "Quotation": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Sales Invoice": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
-    # "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
+    "Sales Order": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSalesOrderSellingController",
     # "Delivery Note": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.selling_controller.TsSellingController",
     "Employee":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.TsEmployeeName",
     "Customer":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.customer.TSCustomer",
-    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote"
+    "Note":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.note.TSNote",
+    "Salary Slip":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.salary_slip.TSSalarySlip"
 }
 
 # Document Events
@@ -180,11 +182,12 @@ doc_events = {
     },
     "Sales Order": {
         "on_change": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
-        "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details"
+        "after_delete": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.doctype.daily_activity.daily_activity.update_order_details",
+        "on_submit": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.sales_order.on_submit"
     },
-    'Employee Checkin':{
-        "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
-    },
+    # 'Employee Checkin':{
+    #     "validate": "sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee_checkin.create_expense_claim"
+    # },
     "Employee":{
         "validate":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation",
         "after_insert":"sri_venkatesa_enterprises.sri_venkatesa_enterprises.custom.py.employee.ssa_creation_afterinsert"

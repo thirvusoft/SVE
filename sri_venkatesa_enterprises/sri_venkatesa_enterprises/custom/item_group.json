@@ -74,7 +74,7 @@
    "columns": 0,
    "creation": "2023-11-10 12:39:56.416773",
    "default": null,
-   "depends_on": "",
+   "depends_on": "eval:!doc.is_group",
    "description": null,
    "docstatus": 0,
    "dt": "Item Group",

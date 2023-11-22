@@ -23,7 +23,7 @@ def create_expense_claim(doc,event):
         doc.expense_claim = exp_clm.name
 
 @frappe.whitelist()
-def create_checkin(start_km=0):
+def create_checkin(start_km=0, vehicle_used="BIKE"):
     emp = frappe.get_value("Employee",{'user_id':frappe.session.user},'name')
     if emp:
         if not frappe.get_all('Employee Checkin',{'log_type':'IN','employee':emp,'time':('between',[nowdate(),nowdate()])}):
@@ -32,7 +32,8 @@ def create_checkin(start_km=0):
                 "start_km":start_km,
                 'time':now_datetime(),
                 'employee':emp,
-                'log_type':'IN'
+                'log_type':'IN',
+                'vehicle_used':vehicle_used
             })
             doc.insert()
             return doc
@@ -53,7 +54,8 @@ def create_checkout(end_km=0, total_km=0):
                 "total_km":float(total_km),
                 "time":now_datetime(),
                 'employee':emp,
-                'log_type':'OUT'
+                'log_type':'OUT',
+                'vehicle_used':frappe.db.get_value("Employee Checkin", {"employee":emp, "log_type":"IN", "time":["<", now_datetime()]}, "vehicle_used")
             })
             doc.insert()
             return doc
