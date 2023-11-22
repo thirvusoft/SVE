@@ -70,7 +70,7 @@ def get_data(filters):
 		if filters.get("from_date") and filters.get("to_date"):
 			pi_conditions.update({"posting_date":["between", [filters.get("from_date"), filters.get("to_date")]]})
 		if filters.get("transporter"):
-			pi_conditions.update({"transporter":filters.get("custom_transporter")})
+			pi_conditions.update({"custom_transporter":filters.get("transporter")})
 		if filters.get("purchase_invoice"):
 			pi_conditions.update({"name":filters.get("purchase_invoice")})
 		purchase_invoice=frappe.db.get_list("Purchase Invoice", filters=pi_conditions, fields=["rounded_total", "custom_transporter", "name"])
