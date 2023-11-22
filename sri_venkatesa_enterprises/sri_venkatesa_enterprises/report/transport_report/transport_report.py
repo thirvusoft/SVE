@@ -69,7 +69,7 @@ def get_data(filters):
 		pi_conditions={"docstatus":1}
 		if filters.get("from_date") and filters.get("to_date"):
 			pi_conditions.update({"posting_date":["between", [filters.get("from_date"), filters.get("to_date")]]})
-		if filters.get("custom_transporter"):
+		if filters.get("transporter"):
 			pi_conditions.update({"transporter":filters.get("custom_transporter")})
 		if filters.get("purchase_invoice"):
 			pi_conditions.update({"name":filters.get("purchase_invoice")})
