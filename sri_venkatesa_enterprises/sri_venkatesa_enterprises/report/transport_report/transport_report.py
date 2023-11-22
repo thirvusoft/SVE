@@ -61,7 +61,7 @@ def get_data(filters):
 				si.invoice_no = si.name
 				si.invoiced_value = si.rounded_total
 				si.transporter = si.transporter
-				si.auto_charge = journal_entry[0]['debit_in_account_currency'] or 0
+				si.auto_charge = journal_entry[0]['debit_in_account_currency'] or journal_entry[0]['credit_in_account_currency']
 		for si in sales_invoice:
 			if si.auto_charge > 0:
 				data.append(si)
