@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-11-15 15:04:31.442979",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "below_days",
+  "incentive_percentage"
+ ],
+ "fields": [
+  {
+   "fieldname": "below_days",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Below Days"
+  },
+  {
+   "fieldname": "incentive_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Incentive Percentage"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-11-15 15:04:31.442979",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Monthly Incentive Percentage",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
