@@ -1,6 +1,12 @@
-frappe.ui.form.on("Purchase Invoice", {
-    
+frappe.ui.form.on("Purchase Invoice", {    
     refresh(frm){
+      frm.set_query('custom_transporter', function() {
+          return {
+            filters: {
+              'is_transporter': 1
+            }
+          }
+        });
         if (frm.doc.docstatus == 1){
 
             frm.add_custom_button(
