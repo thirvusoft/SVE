@@ -60,6 +60,7 @@
   {
    "fieldname": "no_due_days_quarterly",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "No Due Days Quarterly"
   },
   {
@@ -89,6 +90,7 @@
   {
    "fieldname": "no_due_days_half_yearly",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "No Due Days Half Yearly"
   },
   {
@@ -118,6 +120,7 @@
   {
    "fieldname": "no_due_days_yearly",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "No Due Days Yearly"
   },
   {
@@ -143,7 +146,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-11-15 15:39:19.235423",
+ "modified": "2023-11-23 14:58:57.316156",
  "modified_by": "Administrator",
  "module": "Sri Venkatesa Enterprises",
  "name": "Incentive Settings",
