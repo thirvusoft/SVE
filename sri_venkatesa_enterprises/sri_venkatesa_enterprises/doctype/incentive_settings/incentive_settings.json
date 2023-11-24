@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-11-15 14:58:20.262817",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "monthly_incentive_section",
+  "no_due_days",
+  "column_break_nqxx4",
+  "incentive_percentage",
+  "quarterly_incentive_section",
+  "quartely_check",
+  "column_break_vxbes",
+  "no_due_days_quarterly",
+  "column_break_veciv",
+  "fixed_incentive_amount_quarterly",
+  "half_yearly_section",
+  "halfyear_check",
+  "column_break_i0bgd",
+  "no_due_days_half_yearly",
+  "column_break_wytnd",
+  "fixed_incentive_amount_half_yearly",
+  "yearly_incentive_section",
+  "yearly_check",
+  "column_break_nam6f",
+  "no_due_days_yearly",
+  "column_break_2nxji",
+  "fixed_incentive_amount__yearly"
+ ],
+ "fields": [
+  {
+   "fieldname": "monthly_incentive_section",
+   "fieldtype": "Section Break",
+   "label": "Monthly Incentive"
+  },
+  {
+   "description": "Days above Pending Payments should be Zero",
+   "fieldname": "no_due_days",
+   "fieldtype": "Int",
+   "label": "No Due Days"
+  },
+  {
+   "fieldname": "quarterly_incentive_section",
+   "fieldtype": "Section Break",
+   "label": "Quarterly Incentive"
+  },
+  {
+   "default": "0",
+   "fieldname": "quartely_check",
+   "fieldtype": "Check",
+   "label": "Eligible only if Monthly Targets Are Acheived"
+  },
+  {
+   "fieldname": "column_break_vxbes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no_due_days_quarterly",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "No Due Days Quarterly"
+  },
+  {
+   "fieldname": "column_break_veciv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fixed_incentive_amount_quarterly",
+   "fieldtype": "Currency",
+   "label": "Fixed Incentive Amount Quarterly"
+  },
+  {
+   "fieldname": "half_yearly_section",
+   "fieldtype": "Section Break",
+   "label": "Half Yearly Incentive"
+  },
+  {
+   "default": "0",
+   "fieldname": "halfyear_check",
+   "fieldtype": "Check",
+   "label": "Eligible only if Quarterly Targets Are Acheived"
+  },
+  {
+   "fieldname": "column_break_i0bgd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no_due_days_half_yearly",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "No Due Days Half Yearly"
+  },
+  {
+   "fieldname": "column_break_wytnd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fixed_incentive_amount_half_yearly",
+   "fieldtype": "Currency",
+   "label": "Fixed Incentive Amount Half Yearly"
+  },
+  {
+   "fieldname": "yearly_incentive_section",
+   "fieldtype": "Section Break",
+   "label": "Yearly Incentive"
+  },
+  {
+   "default": "0",
+   "fieldname": "yearly_check",
+   "fieldtype": "Check",
+   "label": "Eligible only if Half Year Targets Are Acheived"
+  },
+  {
+   "fieldname": "column_break_nam6f",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no_due_days_yearly",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "No Due Days Yearly"
+  },
+  {
+   "fieldname": "column_break_2nxji",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fixed_incentive_amount__yearly",
+   "fieldtype": "Currency",
+   "label": "Fixed Incentive Amount  Yearly"
+  },
+  {
+   "fieldname": "incentive_percentage",
+   "fieldtype": "Table",
+   "label": "Incentive Percentage",
+   "options": "Monthly Incentive Percentage"
+  },
+  {
+   "fieldname": "column_break_nqxx4",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2023-11-23 14:58:57.316156",
+ "modified_by": "Administrator",
+ "module": "Sri Venkatesa Enterprises",
+ "name": "Incentive Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
